@@ -1,28 +1,21 @@
 ﻿var Map = createClass({
-    construct: function (drawArea, start, finish, soldiers, towers, register) {
+    construct: function (core) {
         //game area
-        this.drawArea = drawArea;
-        this.w = drawArea.w;
-        this.h = drawArea.h;
+        this.drawArea = core.drawArea;
+        this.w = core.drawArea.w;
+        this.h = core.drawArea.h;
         //busy map
         this.mapCellSize = 8;
         this.busyMap = []; 
 
-        //start position and finish position
-        this.x1 = start.x;
-        this.y1 = start.y;
-        this.x2 = finish.x;
-        this.y2 = finish.y;
-
-        //soldiers
-        this.soldiers = soldiers;
         //towers
-        this.towers = towers;
+        this.towers = core.towers;
 
         //init
         this.initBusyMap();
 
-        this.register = register;
+        this.starts = core.starts;
+        this.register = $.proxy(core.register, core);
     },
 
     initBusyMap: function () {
@@ -47,36 +40,9 @@
             }
             this.busyMap.push(line);
         }
-        //mark as finish
-        var fi = this.coordToIndex(this.x2);
-        var fj = this.coordToIndex(this.y2);
-        //this.busyMap[fi][fj].count = 1;
-        this.busyMap[fi][fj].objects['finish'] = true;
-
-    },
-
-    draw: function (context) {
-        return;
-        context.save();
-        //log(this.busyMap.length);
-        for (var i = 0; i < this.busyMap.length; i++) {
-            for (var j = 0; j < this.busyMap[i].length; j++) {
-                var item = this.busyMap[i][j];
-                if (item.count > 0) {
-                    context.fillStyle = "rgba(100,100,100,0.5)";
-                }
-                else {
-                    context.fillStyle = "rgba(230,230,230,0.5)";
-                }
-                context.fillRect(Math.round(item.x + this.drawArea.ox + 1), Math.round(item.y + this.drawArea.oy + 1), item.size - 2, item.size - 2);
-            }
-        }
-
-        context.restore();
     },
 
     isBusyPosition: function (px, py, r, id) {
-
         for (var x = px - r; x <= (px + r + this.mapCellSize) ; x += this.mapCellSize) {
             for (var y = py - r; y <= (py + r + this.mapCellSize) ; y += this.mapCellSize) {
                 var i = this.coordToIndex(x);
@@ -134,11 +100,6 @@
                             {
                                 soldier.finished = true;
                             }
-                            //checking for finish
-                            //if (cell.objects['finish'])
-                            //{
-                                //soldier.finished = true;
-                            //}
                             //mark as busy
                             soldier['mapBusyPositions'].push(cell);
                             cell.count++;

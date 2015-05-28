@@ -1,14 +1,14 @@
 ﻿var Info = createClass({
     extend: Object,
 
-    construct: function (drawArea, soldiers) {
+    construct: function (drawArea, starts) {
         Object.call(this);
         this.drawArea = drawArea;
         this.x = 10;
         this.y = 0;
         this.r = 2;
         this.a = 0.7;
-        this.soldiers = soldiers;
+        this.starts = starts;
         this.fps = 0;
     },
 
@@ -27,11 +27,21 @@
         return this.text;
     },
 
+    getSoldiers: function () {
+        var res = 0;
+
+        for (var i = 0; i < this.starts.length; i++) {
+            res += this.starts[i].soldiers.length;
+        }
+
+        return res;
+    },
+
     updateInfo: function (fps) {
         if (fps > 0 || fps == 0) {
             this.fps = fps;
         }
-        this.text.setText("fps: " + this.fps + "; Soldiers: " + this.soldiers.length);
+        this.text.setText("fps: " + this.fps + "; Soldiers: " + this.getSoldiers());
     },
 
     draw: function (context) {
@@ -39,7 +49,7 @@
 
         //drawing soldiers
         context.fillStyle = "rgba(0,0,0," + this.a + ")";
-        context.fillText("Soldiers: " + this.soldiers.length, this.x + this.drawArea.ox, this.y + this.drawArea.oy);
+        context.fillText("Soldiers: " + this.getSoldiers(), this.x + this.drawArea.ox, this.y + this.drawArea.oy);
 
         //drawing fps
         context.fillStyle = "rgba(0,0,0," + this.a + ")";

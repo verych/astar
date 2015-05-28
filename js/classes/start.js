@@ -1,15 +1,18 @@
 ﻿var Start = createClass({
     extend: Object,
 
-    construct: function (getMapCallback) {
+    construct: function (core) {
         Object.call(this);
+        this.core = core;
+        this.uid = this.core.getUid();
+        this.drawArea = this.core.drawArea;
 
-        this.getMap = getMapCallback;
+        this.getMap = $.proxy(core.getMap, core);
 
         this.r = 16;
         this.level = 1;
         this.limit = 100;
-        this.limitPerMap = 100;
+        this.limitPerMap = 30;
         this.interval = undefined;
         this.intervalTime = 2000;
         this.debugSoldiers = false;
@@ -19,6 +22,8 @@
         this.timeEndGeneration = undefined;
 
         this.soldiers = [];
+        this.finish = new Finish();
+        this.finish.init(core.drawArea);
 
         this.texture = 'start.png';
     },
@@ -66,8 +71,8 @@
         if (this.soldiers.length < this.limitPerMap) {
             this.limit--;
             var map = this.getMap.call();
-            var soldier = new SoldierSapience(this.drawArea, 'Soldier #' + this.limit, this.getMap, $.proxy(this.removeDisabledSoldiers, this));
-            soldier.place(0, this.y + Math.random() * map.h - map.h / 2);
+            var soldier = new SoldierSapience(this, 'Soldier #' + this.limit + ' s:' + this.uid, this.getMap, $.proxy(this.removeDisabledSoldiers, this));
+            soldier.place(this.x, this.y);
             this.soldiers.push(soldier);
             map.register(soldier);
             soldier.run();
@@ -86,9 +91,8 @@
         //this.soldiers.count--;
     },
 
-    init: function (drawArea) {
-        this.drawArea = drawArea;
+    init: function () {
         this.x = parseFloat(this.r * 2 + 1);
-        this.y = parseFloat(drawArea.h / 2);
+        this.y = parseFloat(this.drawArea.h / 2);
     }
 });

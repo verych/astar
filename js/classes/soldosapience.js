@@ -1,8 +1,8 @@
 ﻿var SoldierSapience = createClass({
     extend: Soldier,
 
-    construct: function (drawArea, name, getMapCallback, completeCallback) {
-        Soldier.call(this, drawArea, name, getMapCallback, completeCallback);
+    construct: function (start, name, getMapCallback, completeCallback) {
+        Soldier.call(this, start, name, getMapCallback, completeCallback);
 
         this.movieAssets = 'Tank';
         this.queue = [];
@@ -20,17 +20,14 @@
         this.genome = {
             health: 16,
             speed: 1,
-            slow: 2,
-            radius: 10,
+            slow: 1,
+            radius: 16,
             rotationSpeed: 0.1
         };
         this.type = 'soldiersapience';
 
-        this.attributePoints = 16;
+        this.attributePoints = 0;
         this.initAttributes();
-
-        
-
     },
 
     getDebugInfo: function () {
@@ -96,11 +93,8 @@
         //debugger;
         var map = this.getMap.call();
         this.updateNodesHomo();
-        this.goto(map.x2, map.y2);
-        //this.goto(0, 0);
-        //this.goto(-50, 1000);
-        //this.goto(0, 299);
-        //this.goto(100, 500);
+        this.goto(this.start.finish.x, this.start.finish.y);
+
         clearInterval(this.interval);
         this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
     },
@@ -137,6 +131,7 @@
         }
 
         //clearInterval(this.interval);
+        //debugger;
         switch (this.currentAction.type) {
             case this.actions.rotate:
                 this.calcNewRotation(this.currentAction.params.a);
@@ -169,7 +164,7 @@
                 return { x: go.params.x, y: go.params.y};
             }
             var map = this.getMap.call();
-            return { x: map.x2, y: map.y2 };
+            return { x: this.start.finish.x, y: this.start.finish.y };
     },
 
     getNodeFinish: function (x, y) {
@@ -186,8 +181,8 @@
             }
             else {
                 var map = this.getMap.call();
-                x = map.x2;
-                y = map.y2;
+                x = this.start.finish.x;
+                y = this.start.finish.y;
             }
         }
         var d = this.gridCellSize * 2.0;
