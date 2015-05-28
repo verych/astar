@@ -1,5 +1,6 @@
 ﻿var Object = createClass({
     construct: function () {
+        this.uid = '';
         this.x = 10;
         this.y = 10;
         this.r = 2;

@@ -1,9 +1,11 @@
 ﻿var Soldier = createClass({
     extend: Object,
 
-    construct: function (drawArea, name, getMapCallback, completeCallback) {
+    construct: function (start, name, getMapCallback, completeCallback) {
         Object.call(this);
-        this.drawArea = drawArea;
+        this.start = start;
+
+        this.drawArea = start.drawArea;
         this.getMap = getMapCallback;
         this.complete = completeCallback;
 
@@ -20,9 +22,9 @@
         this.type = 'soldier';
         this.genome = {
             health: 10,
-            speed: 1,
+            speed: 20,
             slow: 1,
-            radius: 1
+            radius: 10
         };
         this.attributePoints = 25;
         this.initAttributes();
@@ -116,8 +118,8 @@
     initAttributes: function () {
         //debugger;
         this.speed = this.genome.speed;
-        this.health = this.genome.health + this.allocRandomPoints();
-        this.r = this.genome.radius + this.health / 3;
+        this.health = this.genome.health;
+        this.r = this.genome.radius;
         this.speed = this.speed + this.r / 4;
         this.slow = this.genome.slow;
 
@@ -170,7 +172,7 @@
             if (this.path.length == 1 && !this.isFallBackProgress) {
                 var map = this.getMap.call();
                 log("To finish " + this.name);
-                this.calcNewSimplePosition(this.x, this.y, map.x2, map.y2);
+                this.calcNewSimplePosition(this.x, this.y, this.start.finish.x, this.start.finish.y);
             }
             else {
                 var n = this.mapNodes[this.path[0].x][this.path[0].y];
@@ -244,7 +246,13 @@
     getNodeCurrent: function () {
         //debugger;
         if (this.graph.nodes && this.graph.nodes[this.nodeX]) {
-            return this.graph.nodes[this.nodeX][this.nodeY];
+            var node = this.graph.nodes[this.nodeX][this.nodeY];
+            if (!node)
+            {
+                //out of area;
+                this.die();
+            }
+            return node;
         }
         return null;
     },
@@ -262,8 +270,8 @@
     getNodeFinish: function () {
         var map = this.getMap.call();
         var d = this.gridCellSize * 2.0;
-        var nX = Math.floor(map.x2 / d);
-        var nY = Math.floor(map.y2 / d);
+        var nX = Math.floor(this.start.finish.x / d);
+        var nY = Math.floor(this.start.finish.y / d);
         return this.graph.nodes[nX][nY];
     },
 

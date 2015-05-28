@@ -37,6 +37,7 @@
         this.map = undefined;
         this.info = undefined;
         this.towers = [];
+        this.starts = [];
 
         //debug
         this.isDebug = false;
@@ -45,6 +46,12 @@
         //this.renderer = 'default';
         this.renderer = 'pixi';
 
+        this.currentUniqueID = 0;
+
+    },
+
+    getUid: function(){
+        return this.currentUniqueID++;
     },
 
     init: function () {
@@ -61,50 +68,49 @@
         }
 
         //game basic objects
-        this.start = new Start($.proxy(this.getMap, this));
-        this.finish = new Finish();
+        //debugger;
+        var start1 = new Start(this);
+        var start2 = new Start(this);
+
+        start1.init();
+        start2.init();
+
+        start2.place(this.canvas.width / 2, this.canvas.height - 50);
+        start2.finish.place(this.canvas.width / 2, 30);
 
 
-        this.start.init(this.drawArea);
-        this.finish.init(this.drawArea);
+        this.starts.push(start1);
+        this.starts.push(start2);
+
+
         this.createTowers();
 
-        this.map = new Map(this.drawArea, this.start, this.finish, this.start.soldiers, this.towers, $.proxy(this.register, this));
-        this.info = new Info(this.drawArea, this.start.soldiers);
+        this.map = new Map(this);
+        this.info = new Info(this.drawArea, this.starts);
 
+        this.pixiStage = new PIXI.Stage(0x648975);
+        this.pixiRenderer = new PIXI.autoDetectRenderer(this.canvas.width, this.canvas.height);
+        // add the renderer view element to the DOM
+        $('body canvas').hide();
+        $('body form').append(this.pixiRenderer.view);
 
-        if (this.renderer == 'default') {
-            if (this.intervalDraw != undefined) {
-                clearInterval(this.intervalDraw);
-            }
-            //log('interval draw creating...');
-            this.intervalDraw = setInterval($.proxy(this.draw, this), this.intervalDrawTime);
+        //init objects
+        this.pixiStage.addChild(start1.pixiGetSprite());
+        this.pixiStage.addChild(start2.pixiGetSprite());
+        this.pixiStage.addChild(start1.finish.pixiGetSprite());
+        this.pixiStage.addChild(start2.finish.pixiGetSprite());
+        this.pixiStage.addChild(this.info.pixiGetText());
+
+        for (var i = 0; i < this.towers.length; i++) {
+            this.register(this.towers[i]);
         }
-        if (this.renderer == 'pixi') {
 
-            this.pixiStage = new PIXI.Stage(0x648975);
-            this.pixiRenderer = new PIXI.autoDetectRenderer(this.canvas.width, this.canvas.height);
-            // add the renderer view element to the DOM
-            $('body canvas').hide();
-            $('body form').append(this.pixiRenderer.view);
-
-            //init objects
-            this.pixiStage.addChild(this.start.pixiGetSprite());
-            this.pixiStage.addChild(this.finish.pixiGetSprite());
-            this.pixiStage.addChild(this.info.pixiGetText());
-
-            for (var i = 0; i < this.towers.length; i++) {
-                this.register(this.towers[i]);
-            }
-
-            //instead of draw interval
-            requestAnimFrame($.proxy(this.draw, this));
-        }
+        //instead of draw interval
+        requestAnimFrame($.proxy(this.draw, this));
 
         this.fpsInterval = setInterval($.proxy(this.updateFps, this), this.fpsIntervalTime);
 
         this.showDebug();
-
         this.run();
     },
 
@@ -140,6 +146,10 @@
 
     onKeyDown: function (e) {
         var keyCode = e.keyCode;
+        if (!e.ctrlKey && keyCode == 13) { //Enter
+            e.preventDefault();
+            this.run();
+        }
         if (e.ctrlKey && keyCode == 68) { //ctrl+d
             e.preventDefault();
             this.showDebug();
@@ -163,36 +173,50 @@
     },
 
     deepDebug: function () {
-        for (var i = 0; i < this.start.soldiers.length; i++) {
-            if (this.start.soldiers[i].selected) {
-                this.start.soldiers[i].deepDebug = true;
+        for (var s = 0; s < this.starts.length; s++) {
+            for (var i = 0; i < this.starts[s].soldiers.length; i++) {
+                if (this.starts[s].soldiers[i].selected) {
+                    this.starts[s].soldiers[i].deepDebug = true;
+                }
             }
         }
     },
 
     markAsFinished: function () {
-        for (var i = 0; i < this.start.soldiers.length; i++) {
-            if (this.start.soldiers[i].selected) {
-                this.start.soldiers[i].finished = true;
+        for (var s = 0; s < this.starts.length; s++) {
+            for (var i = 0; i < this.starts[s].soldiers.length; i++) {
+                if (this.starts[s].soldiers[i].selected) {
+                    this.starts.soldiers[i].finished = true;
+                }
             }
         }
     },
 
+    getAllSoldiers: function () {
+        var res = [];
+        for (var s = 0; s < this.starts.length; s++) {
+            res = res.concat(this.starts[s].soldiers);
+        }
+        return res;
+    },
+
     moveSelection: function (offset) {
         var index = 0;
-        for (var i = 0; i < this.start.soldiers.length; i++) {
-            if (this.start.soldiers[i].selected) {
+        var soldiers = this.getAllSoldiers();
+
+        for (var i = 0; i < soldiers.length; i++) {
+            if (soldiers[i].selected) {
                 index = i + offset;;
             }
             if (index < 0) {
-                index = this.start.soldiers.length - 1;
+                index = soldiers.length - 1;
             }
-            if (index > (this.start.soldiers - 1)) {
+            if (index > (soldiers - 1)) {
                 index = 0;
             }
-            this.start.soldiers[i].selected = false;
+            soldiers[i].selected = false;
         }
-        this.start.soldiers[index].selected = true;
+        soldiers[index].selected = true;
     },
 
     onCanvasClick: function (e) {
@@ -220,8 +244,9 @@
     },
 
     repathSoldiers: function () {
-        for (var i = 0; i < this.map.soldiers.length; i++) {
-            this.map.soldiers[i].rePath = true;
+        var soldiers = this.getAllSoldiers();
+        for (var i = 0; i < soldiers.length; i++) {
+            soldiers[i].rePath = true;
         }
     },
 
@@ -240,8 +265,11 @@
     },
 
     run: function () {
+        //this.starts[0].run();
         //log('game has been started');
-        this.start.run();
+        for (var s = 0; s < this.starts.length; s++) {
+            this.starts[s].run();
+        }
     },
 
     createTowers: function () {
@@ -252,7 +280,7 @@
         tower.r = 20;
         this.towers.push(tower);
         tower = new Tower(this.drawArea);
-        tower.x = this.finish.x - 50;
+        tower.x = this.starts[0].finish.x - 50;
         tower.y -= 10;
         tower.r = 10;
         this.towers.push(tower);
@@ -264,64 +292,22 @@
     },
 
     draw: function () {
-        if (this.renderer == 'default') {
-            //log('drawing tik');
-            //clear for redrawing
-            //this.context.clearRect(this.drawArea.ox, this.drawArea.oy, this.drawArea.w, this.drawArea.h);
-            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.pixiRenderer.render(this.pixiStage);
+        requestAnimFrame($.proxy(this.draw, this));
 
-            //start and finish
-            this.start.draw(this.context);
-            this.finish.draw(this.context);
-
-            //soldiers
-            /*for (var i = 0; i < this.start.soldiers.length; i++) {
-            if (this.start.soldiers[i].enabled) {
-            this.start.soldiers[i].draw(this.context);
-            }
-            }*/
-            for (var name in this.start.soldiers) {
-                if (this.start.soldiers[name].enabled) {
-                    this.start.soldiers[name].draw(this.context);
-                }
-            }
-            //debugger;
-            //towers
-            for (var towerNum in this.towers) {
-                this.towers[towerNum].draw(this.context);
-            }
-
-            //map info
-            this.map.draw(this.context);
-
-            //info
-            this.info.draw(this.context);
-
-            //debug
-            if (this.isDebug) {
-                this.drawDebug();
-            }
-
-            //---------
+        if (this.isDebug) {
+            this.drawDebug();
         }
-        else if (this.renderer == 'pixi') {
-            this.pixiRenderer.render(this.pixiStage);
-            requestAnimFrame($.proxy(this.draw, this));
-
-            if (this.isDebug) {
-                this.drawDebug();
-            }
-        }
-
         this.drawFramesCount++;
     },
 
     drawDebug: function () {
         var debug = $('.debug');
         var content = '';
-        for (var name in this.start.soldiers) {
-            if (this.start.soldiers[name].selected) {
-                content += this.start.soldiers[name].getDebugInfo();
+        var soldiers = this.getAllSoldiers();
+        for (var name in soldiers) {
+            if (soldiers[name].selected) {
+                content += soldiers[name].getDebugInfo();
             }
         }
         debug.html(content);
