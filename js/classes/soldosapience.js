@@ -19,9 +19,9 @@
 
         this.genome = {
             health: 16,
-            speed: 3,
+            speed: 1,
             slow: 4,
-            radius: 16,
+            radius: 8,
             rotationSpeed: 0.2
         };
 
@@ -31,7 +31,7 @@
 
         this.type = 'soldiersapience';
 
-        this.attributePoints = 4;
+        this.attributePoints = 15;
         this.initAttributes();
     },
 
