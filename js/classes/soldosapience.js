@@ -19,7 +19,7 @@
 
         this.genome = {
             health: 16,
-            speed: 1,
+            speed: 3,
             slow: 4,
             radius: 16,
             rotationSpeed: 0.2

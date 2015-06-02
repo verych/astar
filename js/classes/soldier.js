@@ -83,6 +83,11 @@
         var debug = 'Soldier<br />';
         debug += 'name: ' + this.name + '<br />';
         debug += 'enabled: ' + this.enabled + '<br />';
+        debug += 'speed: ' + this.genome.speed + '<br />';
+        debug += 'slow: ' + this.genome.slow + '<br />';
+        debug += 'health: ' + this.genome.health + '<br />';
+        debug += 'radius: ' + this.genome.radius + '<br />';
+        debug += 'r: ' + this.genome.r + '<br />';
         debug += 'isStoped: ' + this.isStoped + '<br />';
         debug += 'stopDate: ' + this.stopDate + '<br />';
         debug += 'isFallBack: ' + this.isFallBack + '<br />';
