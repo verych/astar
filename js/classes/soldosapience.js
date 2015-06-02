@@ -20,13 +20,18 @@
         this.genome = {
             health: 16,
             speed: 1,
-            slow: 1,
+            slow: 4,
             radius: 16,
-            rotationSpeed: 0.1
+            rotationSpeed: 0.05
         };
+
+        //test
+        //this.genome.radius = Math.round(16 + 8 * Math.random());
+        //this.genome.speed = this.genome.radius / 4;
+
         this.type = 'soldiersapience';
 
-        this.attributePoints = 0;
+        this.attributePoints = 4;
         this.initAttributes();
     },
 
@@ -197,7 +202,7 @@
     sleep: function () {
         log("Sleep for " + this.sleepTime + 'sec. "' + this.name + '"');
         clearInterval(this.interval);
-        this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
+        this.interval = setInterval($.proxy(this.doOne, this), this.sleepTime);
     },
 
     wakeup: function () {
@@ -365,12 +370,29 @@
 
     calcNewRotation: function (a) {
         var delta = Math.abs(this.rotation - a);
+
+        //checking for optimal rotation direction
+        if (180 < delta * (180 / Math.PI)) {
+            if (a > this.rotation) {
+                a = a - 360 / (180 / Math.PI);
+                delta = Math.abs(this.rotation - a);
+            }
+            else if (a < this.rotation) {
+                this.rotation = this.rotation - 360 / (180 / Math.PI);
+                delta = Math.abs(this.rotation - a);
+            }
+        }
+        //the last rotation step checking
         if (delta <= this.genome.rotationSpeed) {
             this.rotation = a;
+            if (this.rotation < 0) {
+                this.rotation = this.rotation + (360 / (180 / Math.PI));
+            }
             this.removeAction(this.actions.rotate);
             return;
         }
 
+        //rotation
         if (this.rotation > a) {
             this.rotation -= this.genome.rotationSpeed;
         }
