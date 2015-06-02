@@ -5,7 +5,7 @@
         this.w = core.drawArea.w;
         this.h = core.drawArea.h;
         //busy map
-        this.mapCellSize = 16;
+        this.mapCellSize = 4;
         this.busyMap = []; 
 
         //towers
