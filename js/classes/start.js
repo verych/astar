@@ -12,9 +12,9 @@
         this.r = 16;
         this.level = 1;
         this.limit = 100;
-        this.limitPerMap = 30;
+        this.limitPerMap = 50;
         this.interval = undefined;
-        this.intervalTime = 2000;
+        this.intervalTime = 5000;
         this.debugSoldiers = false;
 
         //time for test

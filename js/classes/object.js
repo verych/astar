@@ -51,7 +51,7 @@
         this.movie.anchor.x = 0.5;
         this.movie.anchor.y = 0.5;
 
-        this.movie.animationSpeed = this.speed/10;
+        this.movie.animationSpeed = this.speed/15;
 
         this.movie.play();
 
@@ -113,6 +113,11 @@
         this.y = y;
 
         var draw = this.movie ? this.movie : this.sprite;
+        if (this.selected) {
+            draw = this.sprite;
+        }
+
+        
 
         if (draw) {
             draw.position.x = this.x;

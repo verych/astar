@@ -22,11 +22,11 @@
         this.type = 'soldier';
         this.genome = {
             health: 10,
-            speed: 20,
+            speed: 5,
             slow: 1,
-            radius: 10
+            radius: 16
         };
-        this.attributePoints = 25;
+        this.attributePoints = 10;
         this.initAttributes();
 
         //pathfinding
@@ -45,7 +45,7 @@
         this.stopTime = 1000; //depends on health
         this.stopMemorySize = 10;
         this.stopMultipler = 1.1;
-        this.sleepTime = 3000;
+        this.sleepTime = 100;
         this.finished = false;
 
         //fall back
@@ -117,7 +117,7 @@
 
     initAttributes: function () {
         //debugger;
-        this.speed = this.genome.speed;
+        //this.speed = this.genome.speed + this.allocRandomPoints();
         this.health = this.genome.health;
         this.r = this.genome.radius;
         this.speed = this.speed + this.r / 4;
@@ -238,6 +238,7 @@
     },
 
     sleep: function () {
+        this.isStoped = true;
         clearInterval(this.interval);
         log("Sleep for " + this.sleepTime + 'sec. "' + this.name + '"');
         setTimeout($.proxy(this.run, this), this.sleepTime);
