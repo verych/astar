@@ -22,7 +22,7 @@
             speed: 1,
             slow: 4,
             radius: 16,
-            rotationSpeed: 0.05
+            rotationSpeed: 0.2
         };
 
         //test
