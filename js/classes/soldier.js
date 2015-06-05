@@ -1,8 +1,8 @@
 ﻿var Soldier = createClass({
-    extend: Object,
+    extend: AppObject,
 
     construct: function (start, name, getMapCallback, completeCallback) {
-        Object.call(this);
+        AppObject.call(this);
         this.start = start;
 
         this.drawArea = start.drawArea;
@@ -79,7 +79,7 @@
     },
 
     getDebugInfo: function () {
-        var oldDebug = Object.fn.getDebugInfo.call(this)
+        var oldDebug = AppObject.fn.getDebugInfo.call(this)
         var debug = 'Soldier<br />';
         debug += 'name: ' + this.name + '<br />';
         debug += 'enabled: ' + this.enabled + '<br />';

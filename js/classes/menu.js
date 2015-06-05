@@ -1,8 +1,8 @@
 ﻿var Menu = createClass({
-	extend: Object,
+	extend: AppObject,
 
 	construct: function (map) {
-		Object.call(this);
+		AppObject.call(this);
 		this.x = undefined;
 		this.y = undefined;
 		this.w = undefined;

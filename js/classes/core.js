@@ -15,8 +15,8 @@
         //current canvas
         this.canvas = canvas;
 
-        this.canvasOffsetLeft = 5;
-        this.canvasOffsetTop = 20;
+        this.canvasOffsetLeft = 50;
+        this.canvasOffsetTop = 50;
 
         this.drawArea = { ox: this.canvasOffsetLeft, oy: this.canvasOffsetTop, w: w - this.canvasOffsetLeft * 2, h: h - this.canvasOffsetTop * 2 };
 
@@ -40,7 +40,7 @@
         this.starts = [];
 
         //debug
-        this.isDebug = false;
+        this.isDebug = true;
 
         //renderer
         //this.renderer = 'default';
@@ -75,12 +75,18 @@
         start1.init();
         start2.init();
 
-        start2.place(this.canvas.width / 2, this.canvas.height - 50);
-        start2.finish.place(this.canvas.width / 2, 30);
+        start2.place((this.canvas.width - this.drawArea.ox) / 2, this.canvas.height - this.drawArea.oy - 50);
+        start2.finish.place((this.canvas.width - -this.drawArea.ox) / 2, 30);
 
 
         this.starts.push(start1);
         this.starts.push(start2);
+
+        //debug settings
+        start1.limit = 100;
+        start1.limitPerMap = 25;
+        start2.limit = 100;
+        start2.limitPerMap = 25;
 
 
         this.createTowers();
@@ -88,8 +94,8 @@
         this.map = new Map(this);
         this.info = new Info(this.drawArea, this.starts);
 
-        this.pixiStage = new PIXI.Stage(0x648975);
-        this.pixiRenderer = new PIXI.autoDetectRenderer(this.canvas.width, this.canvas.height);
+        this.pixiStage = new PIXI.Container();
+        this.pixiRenderer = new PIXI.autoDetectRenderer(this.canvas.width, this.canvas.height, { antialias: true, backgroundColor: 0x648975 });
         // add the renderer view element to the DOM
         $('body canvas').hide();
         $('body form').append(this.pixiRenderer.view);
@@ -106,7 +112,7 @@
         }
 
         //instead of draw interval
-        requestAnimFrame($.proxy(this.draw, this));
+        requestAnimationFrame($.proxy(this.draw, this));
 
         this.fpsInterval = setInterval($.proxy(this.updateFps, this), this.fpsIntervalTime);
 
@@ -115,26 +121,35 @@
     },
 
     loadAssets: function () {
-        var assetsToLoader = ['./js/assets/tank.json'];
-        loader = new PIXI.AssetLoader(assetsToLoader);
-        loader.onComplete = $.proxy(this.init, this);
+        var loader = PIXI.loader; // pixi exposes a premade instance for you to use.
+        loader.add('tank', './js/assets/tank.json');
+        loader.once('complete', $.proxy(this.init, this));
         loader.load();
     },
 
-    register: function (object) {
+    register: function (regObject) {
         if (this.renderer == 'pixi') {
-            if (!object.registered)
+            if (!regObject.registered)
             {
-                this.pixiStage.addChild(object.pixiGetSprite());
-                object.registered = true;
-                object.place(object.x, object.y);
+                this.pixiStage.addChild(regObject.pixiGetSprite());
+                regObject.registered = true;
+                if (regObject.debugGraphics != null) {
+                    console.log('debug graphics registered for', regObject);
+                    this.pixiStage.addChild(regObject.debugGraphics);
+                }
+                regObject.place(regObject.x, regObject.y);
             }
             else {
-                if (object.sprite)
-                    this.pixiStage.removeChild(object.sprite);
-                if (object.movie)
-                this.pixiStage.removeChild(object.movie);
-                object.registered = false;
+                if (regObject.sprite) {
+                    this.pixiStage.removeChild(regObject.sprite);
+                }
+                if (regObject.movie) {
+                    this.pixiStage.removeChild(regObject.movie);
+                }
+                if (regObject.debugGraphics != null) {
+                    this.pixiStage.removeChild(regObject.debugGraphics);
+                }
+                regObject.registered = false;
             }
         }
     },
@@ -222,8 +237,8 @@
     onCanvasClick: function (e) {
         log('Event: click ' + (e.pageX - e.currentTarget.offsetLeft) + ' ' + (e.pageY - e.currentTarget.offsetTop));
         var tower = new Tower(this.drawArea);
-        tower.x = e.pageX - e.currentTarget.offsetLeft - tower.r * 4;
-        tower.y = e.pageY - e.currentTarget.offsetTop - tower.r * 2;
+        tower.x = e.pageX - e.currentTarget.offsetLeft - tower.r * 5 - this.drawArea.ox;
+        tower.y = e.pageY - e.currentTarget.offsetTop + tower.r * 0 - this.drawArea.oy;
         tower.place(tower.x, tower.y);
         this.towers.push(tower);
         this.register(tower);
@@ -293,7 +308,7 @@
 
     draw: function () {
         this.pixiRenderer.render(this.pixiStage);
-        requestAnimFrame($.proxy(this.draw, this));
+        requestAnimationFrame($.proxy(this.draw, this));
 
         if (this.isDebug) {
             this.drawDebug();

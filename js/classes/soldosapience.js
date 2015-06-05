@@ -15,12 +15,12 @@
         this.currentAction = '';
         this.stopTimeDuration = 0;
         this.deepDebug = false;
-        this.fallbackDistance = 2;
+        this.fallbackDistance = 3;
 
         this.genome = {
             health: 16,
             speed: 1,
-            slow: 4,
+            slow: 3,
             radius: 8,
             rotationSpeed: 0.2
         };
@@ -33,6 +33,9 @@
 
         this.attributePoints = 15;
         this.initAttributes();
+        this.gridCellSize = this.r;
+        this.debugGraphics = new PIXI.Graphics();
+        this.debugGraphicsShowed = false;
     },
 
     getDebugInfo: function () {
@@ -154,12 +157,80 @@
                 this.updateAStar();
                 //this.rePath = false;
                 this.removeAction(this.actions.repath);
+                if (this.selected) {
+                    //show debug data
+                    this.drawDebugData();
+                }
                 break;
         }
         //log(this.currentAction);
         if (this.enabled) {
             //this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
         }
+
+        if (this.selected) {
+            if (!this.debugGraphicsShowed) {
+                this.drawDebugData();
+                this.debugGraphicsShowed = true;
+            }
+            //show debug data
+            //this.drawDebugData();
+        }
+        else {
+            this.debugGraphics.clear();
+            this.debugGraphicsShowed = false;
+        }
+    },
+
+    drawDebugData: function () {
+        this.debugGraphics.clear();
+        this.debugGraphics.lineStyle(4, 0xffd900, 1);
+        //this.debugGraphics.drawCircle(this.x + this.drawArea.ox, this.y + +this.drawArea.oy, this.r);
+
+
+        //debug path
+        this.debugGraphics.lineStyle(1, 0xFFFF00, 0.1);
+        this.debug.path = 100;
+        for (var nx = this.nodeX - this.debug.path; nx <= this.nodeX + this.debug.path; nx++) {
+            for (var ny = this.nodeY - this.debug.path; ny <= this.nodeY + this.debug.path; ny++) {
+                if (this.mapNodes[nx] && this.mapNodes[nx][ny]) {
+                    var n = this.mapNodes[nx][ny];
+                    //debugger;
+                    //color
+                    if (n.type != MapNodeTypes.OPEN) {
+                        this.debugGraphics.beginFill(0xFF00BB, 0.3);
+                    }
+                    else {
+                        this.debugGraphics.beginFill(0x00FF00, 0);
+                    }
+
+                        //position
+                        var subR = n.r;
+                        var subX = n.x; // +subR * (this.nodeX - nx);
+                        var subY = n.y; // +subR * (this.nodeY - ny);
+
+                        this.debugGraphics.drawRoundedRect(Math.round(subX - subR + this.drawArea.ox + 1), Math.round(subY - subR + this.drawArea.oy + 1), Math.round(subR * 2) - 2, Math.round(subR * 2) - 2, 3);
+                        this.debugGraphics.endFill();
+                }
+            }
+        }
+        //drawing path
+        for (var i = 0; i < this.path.length; i++) {
+            if (this.mapNodes[this.path[i].x] && this.mapNodes[this.path[i].x][this.path[i].y]) {
+                var n = this.mapNodes[this.path[i].x][this.path[i].y];
+                //position
+                var subR = n.r;
+                var subX = n.x; // +subR * (this.nodeX - nx);
+                var subY = n.y; // +subR * (this.nodeY - ny);
+
+                this.debugGraphics.beginFill(0xFFFFFF, 0.3);
+                this.debugGraphics.drawRoundedRect(Math.round(subX - subR + this.drawArea.ox + 1), Math.round(subY - subR + this.drawArea.oy + 1), Math.round(subR * 2) - 2, Math.round(subR * 2) - 2, 3);
+                this.debugGraphics.endFill();
+            }
+        }
+
+        console.log('drawing debug data', this.x, this.y, this.r);
+        //this.debugGraphics.lineStyle(4, 0xffd900, 1);
     },
 
     getFinishCoords: function () {
@@ -402,6 +473,22 @@
 
         
         this.place(this.x, this.y);
+    },
+
+    prePlace: function (draw, x, y) {
+        var colorMatrix = new PIXI.filters.ColorMatrixFilter();
+        draw.filters = null;
+        if (this.selected) {
+            colorMatrix.negative();
+        }
+        if (!this.isStoped) {
+            colorMatrix.saturate(5, 1);
+        }
+        if (this.isFallBack) {
+            colorMatrix.saturate(3, 1);
+        }
+        
+        (draw.filters == null) ? draw.filters = [colorMatrix] : draw.filters.push(colorMatrix);
     },
 
     die: function () {

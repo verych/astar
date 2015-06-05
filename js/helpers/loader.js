@@ -5,7 +5,7 @@
 };
 
 //setup array of scripts and an index to keep track of where we are in the process
-var scripts = ['assets', 'object', 'start', 'finish', 'soldier', 'soldosapience', 'map', 'info', 'tower', 'menu', 'core'],
+var scripts = ['assets', 'appobject', 'start', 'finish', 'soldier', 'soldosapience', 'map', 'info', 'tower', 'menu', 'core'],
     scriptsIndex = 0;
 
 //setup a function that loads a single script

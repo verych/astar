@@ -1,8 +1,8 @@
 ﻿var Finish = createClass({
-    extend: Object,
+    extend: AppObject,
 
     construct: function () {
-        Object.call(this);
+        AppObject.call(this);
         this.texture = 'finish.png';
 
     },

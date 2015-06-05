@@ -1,4 +1,4 @@
-﻿var Object = createClass({
+﻿var AppObject = createClass({
     construct: function () {
         this.uid = '';
         this.x = 10;
@@ -19,8 +19,10 @@
         this.textureSizeY = 0;
         this.registered = false;
         this.movieAssets = '';
+        //debug goals
+        this.debugGraphics = null;
 
-        this.type = 'object';
+        this.type = 'appobject';
     },
 
     pixiGetFrames: function () {
@@ -46,8 +48,7 @@
             textures.push(texture);
         };
 
-        this.movie = new PIXI.MovieClip(textures);
-
+        this.movie = new PIXI.extras.MovieClip(textures);
         this.movie.anchor.x = 0.5;
         this.movie.anchor.y = 0.5;
 
@@ -113,15 +114,12 @@
         this.y = y;
 
         var draw = this.movie ? this.movie : this.sprite;
-        if (this.selected) {
-            draw = this.sprite;
-        }
 
-        
+        this.prePlace(draw, x, y);
 
         if (draw) {
-            draw.position.x = this.x;
-            draw.position.y = this.y;
+            draw.position.x = this.x + this.drawArea.ox;
+            draw.position.y = this.y + this.drawArea.oy;
             draw.rotation = this.rotation;
             
             //scale texture
@@ -129,8 +127,6 @@
                 draw.scale.x = 2 * this.r / this.textureSizeX;
                 draw.scale.y = 2 * this.r / this.textureSizeY;
             }
-            //this.sprite.rotation += 0.1;
-
         }
         else {
             log('no sprite');
@@ -139,9 +135,13 @@
         log('object moved to: ' + this.x + ':' + this.y);
     },
 
+    prePlace: function (draw, x, y) {
+        //nothing here for now
+    },
+
     getDebugInfo: function () {
         var debug = '';
-        debug += 'Object:<br />';
+        debug += 'AppObject:<br />';
         debug += 'x: ' + this.x + '<br />';
         debug += 'y: ' + this.y + '<br />';
         debug += 'r: ' + this.r + '<br />';

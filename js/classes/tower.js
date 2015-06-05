@@ -1,8 +1,8 @@
 ﻿var Tower = createClass({
-    extend: Object,
+    extend: AppObject,
 
     construct: function (drawArea, getMapCallback) {
-        Object.call(this);
+        AppObject.call(this);
         this.type = 'tower';
         this.drawArea = drawArea;
         this.getMap = getMapCallback;

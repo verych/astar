@@ -1,8 +1,8 @@
 ﻿var Start = createClass({
-    extend: Object,
+    extend: AppObject,
 
     construct: function (core) {
-        Object.call(this);
+        AppObject.call(this);
         this.core = core;
         this.uid = this.core.getUid();
         this.drawArea = this.core.drawArea;
@@ -11,10 +11,10 @@
 
         this.r = 16;
         this.level = 1;
-        this.limit = 500;
+        this.limit = 50;
         this.limitPerMap = 50;
         this.interval = undefined;
-        this.intervalTime = 3000;
+        this.intervalTime = 1500;
         this.debugSoldiers = false;
 
         //time for test

@@ -1,8 +1,8 @@
 ﻿var Info = createClass({
-    extend: Object,
+    extend: AppObject,
 
     construct: function (drawArea, starts) {
-        Object.call(this);
+        AppObject.call(this);
         this.drawArea = drawArea;
         this.x = 10;
         this.y = 0;
@@ -41,7 +41,7 @@
         if (fps > 0 || fps == 0) {
             this.fps = fps;
         }
-        this.text.setText("fps: " + this.fps + "; Soldiers: " + this.getSoldiers());
+        this.text.text = "fps: " + this.fps + "; Soldiers: " + this.getSoldiers();
     },
 
     draw: function (context) {
