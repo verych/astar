@@ -60,6 +60,10 @@
     },
 
     pixiGetSprite: function () {
+        if (this.sprite) {
+            return this.sprite;
+        }
+
         if (this.movieAssets.length) {
             return this.pixiGetMovie();
         }
@@ -114,6 +118,7 @@
         this.y = y;
 
         var draw = this.movie ? this.movie : this.sprite;
+        draw = draw ? draw : this.pixiGetSprite();
 
         this.prePlace(draw, x, y);
 

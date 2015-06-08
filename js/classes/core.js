@@ -5,8 +5,8 @@
         var w = 180.0;
         var h = 300.0;
 
-        w = $(document).width() * 0.95;
-        h = $(document).height() * 0.97;
+        w = $(document).width();
+        h = $(document).height();
 
         //canvas
         canvas.width = w;
@@ -15,8 +15,8 @@
         //current canvas
         this.canvas = canvas;
 
-        this.canvasOffsetLeft = 50;
-        this.canvasOffsetTop = 50;
+        this.canvasOffsetLeft = 20;
+        this.canvasOffsetTop = 20;
 
         this.drawArea = { ox: this.canvasOffsetLeft, oy: this.canvasOffsetTop, w: w - this.canvasOffsetLeft * 2, h: h - this.canvasOffsetTop * 2 };
 
@@ -48,6 +48,11 @@
 
         this.currentUniqueID = 0;
 
+        //levels
+        //debugger;
+        this.levels = new Levels();
+        this.levelNumber = 1;
+        this.levelLoader = this.levels.loaders[this.levelNumber];
     },
 
     getUid: function(){
@@ -56,7 +61,7 @@
 
     init: function () {
         //debugger;
-        this.addEventListeners();
+        console.log("core init");
 
         if (this.renderer == 'pixi') {
             //load assets
@@ -69,14 +74,17 @@
 
         //game basic objects
         //debugger;
-        var start1 = new Start(this);
-        var start2 = new Start(this);
+        //var start1 = new Start(this);
+        //var start2 = new Start(this);
 
-        start1.init();
-        start2.init();
-
-        start2.place((this.canvas.width - this.drawArea.ox) / 2, this.canvas.height - this.drawArea.oy - 50);
-        start2.finish.place((this.canvas.width - -this.drawArea.ox) / 2, 30);
+        //start1.init();
+        //start2.init();
+        //debugger;
+        /*
+        start1.place(30, this.drawArea.h / 2);
+        start1.finish.place(this.drawArea.w - 30, this.drawArea.h / 2);
+        start2.place(this.drawArea.w / 2, this.drawArea.h - 50);
+        start2.finish.place(this.drawArea.w / 2, 30);
 
 
         this.starts.push(start1);
@@ -84,12 +92,15 @@
 
         //debug settings
         start1.limit = 100;
-        start1.limitPerMap = 25;
+        start1.limitPerMap = 1;
         start2.limit = 100;
-        start2.limitPerMap = 25;
+        start2.limitPerMap = 1;
 
-
+        
         this.createTowers();
+        */
+        //debugger;   
+        this.levelLoader(this);
 
         this.map = new Map(this);
         this.info = new Info(this.drawArea, this.starts);
@@ -101,15 +112,22 @@
         $('body form').append(this.pixiRenderer.view);
 
         //init objects
-        this.pixiStage.addChild(start1.pixiGetSprite());
-        this.pixiStage.addChild(start2.pixiGetSprite());
-        this.pixiStage.addChild(start1.finish.pixiGetSprite());
-        this.pixiStage.addChild(start2.finish.pixiGetSprite());
+        for (var i = 0; i < this.starts.length; i++) {
+            this.pixiStage.addChild(this.starts[i].pixiGetSprite());
+            this.pixiStage.addChild(this.starts[i].finish.pixiGetSprite());
+        }
+        //this.pixiStage.addChild(start1.pixiGetSprite());
+        //this.pixiStage.addChild(start2.pixiGetSprite());
+        //this.pixiStage.addChild(start1.finish.pixiGetSprite());
+        //this.pixiStage.addChild(start2.finish.pixiGetSprite());
         this.pixiStage.addChild(this.info.pixiGetText());
 
         for (var i = 0; i < this.towers.length; i++) {
             this.register(this.towers[i]);
         }
+
+        //events
+        this.addEventListeners();
 
         //instead of draw interval
         requestAnimationFrame($.proxy(this.draw, this));
@@ -155,11 +173,12 @@
     },
 
     addEventListeners: function () {
-        $('body').bind('mousedown', $.proxy(this.onCanvasClick, this));
+        $('body canvas').bind('mousedown', $.proxy(this.onCanvasClick, this));
         $(window).bind('keydown', $.proxy(this.onKeyDown, this));
     },
 
     onKeyDown: function (e) {
+        
         var keyCode = e.keyCode;
         if (!e.ctrlKey && keyCode == 13) { //Enter
             e.preventDefault();
@@ -218,7 +237,7 @@
     moveSelection: function (offset) {
         var index = 0;
         var soldiers = this.getAllSoldiers();
-
+        
         for (var i = 0; i < soldiers.length; i++) {
             if (soldiers[i].selected) {
                 index = i + offset;;
@@ -232,13 +251,15 @@
             soldiers[i].selected = false;
         }
         soldiers[index].selected = true;
+        console.log("selection ", soldiers.length, index);
     },
 
     onCanvasClick: function (e) {
+        //debugger;
         log('Event: click ' + (e.pageX - e.currentTarget.offsetLeft) + ' ' + (e.pageY - e.currentTarget.offsetTop));
         var tower = new Tower(this.drawArea);
-        tower.x = e.pageX - e.currentTarget.offsetLeft - tower.r * 5 - this.drawArea.ox;
-        tower.y = e.pageY - e.currentTarget.offsetTop + tower.r * 0 - this.drawArea.oy;
+        tower.x = e.pageX - e.currentTarget.offsetLeft - this.drawArea.ox;
+        tower.y = e.pageY - e.currentTarget.offsetTop - this.drawArea.oy;
         tower.place(tower.x, tower.y);
         this.towers.push(tower);
         this.register(tower);

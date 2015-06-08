@@ -12,7 +12,7 @@
         this.r = 16;
         this.level = 1;
         this.limit = 50;
-        this.limitPerMap = 50;
+        this.limitPerMap = 5;
         this.interval = undefined;
         this.intervalTime = 1500;
         this.debugSoldiers = false;
@@ -26,33 +26,14 @@
         this.finish.init(core.drawArea);
 
         this.texture = 'start.png';
+
+        this.genome = null;
     },
 
     run: function () {
-        if (this.debugSoldiers)
-        {
-            var soldier1 = new SoldierSapience(this.drawArea, 'Soldier #1', this.getMap, $.proxy(this.removeDisabledSoldiers, this));
-            this.soldiers.push(soldier1);
-            soldier1.place(0, this.y + 80);
-            soldier1.speed = 5;
-            soldier1.health = 15;
-            soldier1.r = 15;
-            soldier1.run();
-
-            var soldier2 = new SoldierSapience(this.drawArea, 'Soldier #2', this.getMap, $.proxy(this.removeDisabledSoldiers, this));
-            this.soldiers.push(soldier2);
-            soldier2.place(0, this.y - 80);
-            soldier2.speed = 5;
-            soldier2.health = 15;
-            soldier2.r = 15;
-            soldier2.run();
-        }
-        else
-        {
             log('soldiers generation enabled: ' + this.intervalTime + 'ms');
             this.timeStartGeneration = new Date();
             this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
-        }
     },
 
     stop: function () {

@@ -4,8 +4,22 @@
     };
 };
 
+window.originalSetInterval = window.setInterval;
+window.originalClearInterval = window.clearInterval;
+window.activeIntervals = 0;
+
+window.setInterval = function (func, delay) {
+    window.activeIntervals++;
+    return window.originalSetInterval(func, delay);
+};
+
+window.clearInterval = function (intervalID) {
+    window.activeIntervals--;
+    window.originalClearInterval(intervalID);
+};
+
 //setup array of scripts and an index to keep track of where we are in the process
-var scripts = ['assets', 'appobject', 'start', 'finish', 'soldier', 'soldosapience', 'map', 'info', 'tower', 'menu', 'core'],
+var scripts = ['assets', 'appobject', 'start', 'finish', 'soldier', 'soldosapience', 'map', 'info', 'tower', 'menu', 'core', 'levels'],
     scriptsIndex = 0;
 
 //setup a function that loads a single script

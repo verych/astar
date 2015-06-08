@@ -17,21 +17,25 @@
         this.deepDebug = false;
         this.fallbackDistance = 3;
 
-        this.genome = {
-            health: 16,
-            speed: 1,
-            slow: 3,
-            radius: 8,
-            rotationSpeed: 0.2
-        };
-
+        if (start.genome) {
+            this.genome = start.genome;
+        }
+        else {
+            this.genome = {
+                health: 16,
+                speed: 1,
+                slow: 3,
+                radius: 8,
+                rotationSpeed: 0.2
+            }
+        }
         //test
         //this.genome.radius = Math.round(16 + 8 * Math.random());
         //this.genome.speed = this.genome.radius / 4;
 
         this.type = 'soldiersapience';
 
-        this.attributePoints = 15;
+        this.attributePoints = 0;
         this.initAttributes();
         this.gridCellSize = this.r;
         this.debugGraphics = new PIXI.Graphics();
@@ -102,8 +106,10 @@
         var map = this.getMap.call();
         this.updateNodesHomo();
         this.goto(this.start.finish.x, this.start.finish.y);
-
-        clearInterval(this.interval);
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
         this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
     },
 
@@ -356,8 +362,6 @@
             }
         }
 
-
-
         this.vectorX = px;
         this.vectorY = py;
 
@@ -476,6 +480,7 @@
     },
 
     prePlace: function (draw, x, y) {
+        return; //disabled
         var colorMatrix = new PIXI.filters.ColorMatrixFilter();
         draw.filters = null;
         if (this.selected) {

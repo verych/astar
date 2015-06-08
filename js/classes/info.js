@@ -41,7 +41,7 @@
         if (fps > 0 || fps == 0) {
             this.fps = fps;
         }
-        this.text.text = "fps: " + this.fps + "; Soldiers: " + this.getSoldiers();
+        this.text.text = "fps: " + this.fps + "; Soldiers: " + this.getSoldiers() + "; Timers: " + window.activeIntervals;
     },
 
     draw: function (context) {
