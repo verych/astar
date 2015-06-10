@@ -64,6 +64,13 @@
         app.drawArea.ox = 50;
         app.drawArea.oy = 30;
 
+        //background
+        app.backgroundImage = 'bg1.jpg';
+        app.backgroundScaleX = 1.6;
+        app.backgroundScaleY = 1.6;
+        app.backgroundPositionX = -10;
+        app.backgroundPositionY = -20;
+
         //starts
         var start1 = new Start(app);
         start1.init();
@@ -71,16 +78,16 @@
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
         start1.limit = 100;
         start1.limitPerMap = 50;
-        start1.intervalTime = 200;
+        start1.intervalTime = 2000;
         app.starts.push(start1);
 
         //soldiers
         start1.genome = {
             health: 16,
             speed: 1,
-            slow: 2,
+            slow: 3,
             radius: 16,
-            rotationSpeed: 0.5
+            rotationSpeed: 0.1
         }
 
         //towers

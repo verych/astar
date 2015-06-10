@@ -54,6 +54,12 @@
         this.levels = new Levels();
         this.levelNumber = 1;
         this.levelLoader = this.levels.loaders[this.levelNumber];
+
+        this.backgroundImage = null;
+        this.backgroundScaleX = 1;
+        this.backgroundScaleY = 1;
+        this.backgroundPositionX = 1;
+        this.backgroundPositionY = 1;
     },
 
     getUid: function(){
@@ -73,34 +79,6 @@
             }
         }
 
-        //game basic objects
-        //debugger;
-        //var start1 = new Start(this);
-        //var start2 = new Start(this);
-
-        //start1.init();
-        //start2.init();
-        //debugger;
-        /*
-        start1.place(30, this.drawArea.h / 2);
-        start1.finish.place(this.drawArea.w - 30, this.drawArea.h / 2);
-        start2.place(this.drawArea.w / 2, this.drawArea.h - 50);
-        start2.finish.place(this.drawArea.w / 2, 30);
-
-
-        this.starts.push(start1);
-        this.starts.push(start2);
-
-        //debug settings
-        start1.limit = 100;
-        start1.limitPerMap = 1;
-        start2.limit = 100;
-        start2.limitPerMap = 1;
-
-        
-        this.createTowers();
-        */
-        //debugger;   
         this.levelLoader(this);
 
         this.map = new Map(this);
@@ -112,15 +90,21 @@
         $('body canvas').hide();
         $('body form').append(this.pixiRenderer.view);
 
+        //background
+        if (this.backgroundImage) {
+            this.backgroundSprite = PIXI.Sprite.fromImage('./assets/' + this.backgroundImage);
+            this.backgroundSprite.scale.x = this.backgroundScaleX;
+            this.backgroundSprite.scale.y = this.backgroundScaleY;
+            this.backgroundSprite.position.x = this.backgroundPositionX;
+            this.backgroundSprite.position.y = this.backgroundPositionY;
+            this.pixiStage.addChild(this.backgroundSprite);
+        }
+
         //init objects
         for (var i = 0; i < this.starts.length; i++) {
             this.pixiStage.addChild(this.starts[i].pixiGetSprite());
             this.pixiStage.addChild(this.starts[i].finish.pixiGetSprite());
         }
-        //this.pixiStage.addChild(start1.pixiGetSprite());
-        //this.pixiStage.addChild(start2.pixiGetSprite());
-        //this.pixiStage.addChild(start1.finish.pixiGetSprite());
-        //this.pixiStage.addChild(start2.finish.pixiGetSprite());
         this.pixiStage.addChild(this.info.pixiGetText());
 
         for (var i = 0; i < this.towers.length; i++) {

@@ -18,7 +18,7 @@
         this.fallbackDistance = 3;
 
         if (start.genome) {
-            this.genome = start.genome;
+            this.genome = $.extend({}, start.genome);
         }
         else {
             this.genome = {
@@ -35,7 +35,7 @@
 
         this.type = 'soldiersapience';
 
-        this.attributePoints = 0;
+        this.attributePoints = 4;
         this.initAttributes();
         this.gridCellSize = this.r;
         this.debugGraphics = new PIXI.Graphics();
