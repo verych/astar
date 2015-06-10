@@ -69,37 +69,62 @@
         start1.init();
         start1.place(30, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
-        start1.limit = 30;
-        start1.limitPerMap = 20;
-        start1.intervalTime = 500;
+        start1.limit = 100;
+        start1.limitPerMap = 50;
+        start1.intervalTime = 200;
         app.starts.push(start1);
 
         //soldiers
         start1.genome = {
             health: 16,
             speed: 1,
-            slow: 3,
+            slow: 2,
             radius: 16,
-            rotationSpeed: 0.2
+            rotationSpeed: 0.5
         }
 
         //towers
         var tower;
         tower = new Tower(app.drawArea);
         tower.x = 300;
-        tower.y = 330;
-        tower.r = 40;
-        app.towers.push(tower);
-        tower = new Tower(app.drawArea);
-        tower.x = 500;
-        tower.y = 330;
-        tower.r = 40;
-        app.towers.push(tower);
-        tower = new Tower(app.drawArea);
-        tower.x = start1.x + 20;
         tower.y = start1.y;
-        tower.r = 10;
+        tower.r = 40;
         app.towers.push(tower);
+        tower = new Tower(app.drawArea);
+        tower.x = 600;
+        tower.y = start1.y;
+        tower.r = 38;
+        app.towers.push(tower);
+        for (var i = 0; i < 24; i++) {
+            tower = new Tower(app.drawArea);
+            tower.r = 10;
+            tower.x = 80;
+            tower.y = 80 + tower.r * i * 2;
+            app.towers.push(tower);
+        }
+        for (var i = 0; i < 24; i++) {
+            tower = new Tower(app.drawArea);
+            tower.r = 10;
+            tower.y = 80;
+            tower.x = 80 + tower.r * i * 2;
+            app.towers.push(tower);
+        }
+        for (var i = 0; i < 24; i++) {
+            tower = new Tower(app.drawArea);
+            tower.r = 10;
+            tower.y = 560;
+            tower.x = 80 + tower.r * i * 2;
+            app.towers.push(tower);
+        }
+        for (var i = 0; i < 11; i++) {
+            tower = new Tower(app.drawArea);
+            tower.r = 10;
+            tower.y = start1.y;
+            tower.x = 351 + tower.r * i * 2;
+            app.towers.push(tower);
+        }
+
+
     }
 
 });

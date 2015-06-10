@@ -45,7 +45,7 @@
         this.stopTime = 1000; //depends on health
         this.stopMemorySize = 10;
         this.stopMultipler = 1.1;
-        this.sleepTime = 100;
+        this.sleepTime = 10;
         this.finished = false;
 
         //fall back

@@ -31,6 +31,7 @@
         this.fpsValue = 0;
         this.fpsInterval = undefined;
         this.fpsIntervalTime = 1000;
+        this.calcAstarCount = 0;
         this.assetsLoaded = false;
 
         //map
@@ -290,8 +291,11 @@
         var date = new Date();
         var msecs = date - this.drawFramesTime;
         var frames = this.drawFramesCount - this.drawFramesCountLast;
+        var astars = window.astarCounter - this.calcAstarCount;
         this.fpsValue = Math.round(frames / (msecs / 1000));
-        this.info.updateInfo(this.fpsValue);
+        this.cpsValue = Math.round(astars / (msecs / 1000));
+        this.calcAstarCount = window.astarCounter;
+        this.info.updateInfo(this.fpsValue, this.cpsValue);
         this.drawFramesTime = date;
         this.drawFramesCountLast = this.drawFramesCount;
     },

@@ -277,16 +277,17 @@
     },
 
     sleep: function () {
+        return;
         log("Sleep for " + this.sleepTime + 'sec. "' + this.name + '"');
         clearInterval(this.interval);
         this.interval = setInterval($.proxy(this.doOne, this), this.sleepTime);
     },
-
+    /*
     wakeup: function () {
         log("Wakeup " + this.name + '"');
         setTimeout($.proxy(this.wakeup, this), this.sleepTime);
     },
-
+    */
     calcNewAStarPosition: function (x, y) {
         /*** pre-checking additional actions ***/
         if (this.rePath) {

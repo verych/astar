@@ -18,6 +18,9 @@ window.clearInterval = function (intervalID) {
     window.originalClearInterval(intervalID);
 };
 
+//used to register astar calculating count
+window.astarCounter = 0;
+
 //setup array of scripts and an index to keep track of where we are in the process
 var scripts = ['assets', 'appobject', 'start', 'finish', 'soldier', 'soldosapience', 'map', 'info', 'tower', 'menu', 'core', 'levels'],
     scriptsIndex = 0;

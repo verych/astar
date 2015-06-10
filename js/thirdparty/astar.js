@@ -24,6 +24,7 @@ var astar = {
         });
     },
     search: function (grid, start, end, diagonal, heuristic) {
+        window.astarCounter++;
         astar.init(grid);
         heuristic = heuristic || astar.manhattan;
         diagonal = !!diagonal;

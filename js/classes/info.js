@@ -37,11 +37,11 @@
         return res;
     },
 
-    updateInfo: function (fps) {
+    updateInfo: function (fps, cps) {
         if (fps > 0 || fps == 0) {
             this.fps = fps;
         }
-        this.text.text = "fps: " + this.fps + "; Soldiers: " + this.getSoldiers() + "; Timers: " + window.activeIntervals;
+        this.text.text = "fps: " + this.fps + "; Soldiers: " + this.getSoldiers() + "; Timers: " + window.activeIntervals + "; cps: " + cps;
     },
 
     draw: function (context) {
