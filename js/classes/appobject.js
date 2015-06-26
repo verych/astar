@@ -35,7 +35,6 @@
             }
             return result;
         }
-        
     },
 
     pixiGetMovie: function () {
@@ -52,7 +51,11 @@
         this.movie.anchor.x = 0.5;
         this.movie.anchor.y = 0.5;
 
-        this.movie.animationSpeed = this.speed/15;
+        this.movie.animationSpeed = this.speed / 15;
+
+        this.movie.interactive = true;
+        this.movie.on('mousedown', $.proxy(this.click, this));
+        this.movie.on('touchstart', $.proxy(this.click, this));
 
         this.movie.play();
 
@@ -72,6 +75,9 @@
         var texture = PIXI.Texture.fromImage('./assets/' + this.texture);
         // create a new Sprite using the texture
         this.sprite = new PIXI.Sprite(texture);
+        this.sprite.interactive = true;
+        this.sprite.on('mousedown', $.proxy(this.click, this));
+        this.sprite.on('touchstart', $.proxy(this.click, this));
 
         // center the sprites anchor point
         this.sprite.anchor.x = 0.5;
@@ -82,6 +88,10 @@
         this.sprite.position.y = this.y;
 
         return this.sprite;
+    },
+
+    click: function () {
+        this.selected = !this.selected;
     },
 
     pixiGetText: function () {

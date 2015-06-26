@@ -1,0 +1,45 @@
+﻿{
+        "frames": {
+            "tank3.png":
+            {
+                "frame": { "x": 0, "y": 32, "w": 32, "h": 32 },
+                "rotated": false,
+                "trimmed": false,
+                "spriteSourceSize": { "x": 0, "y": 32, "w": 32, "h": 32 },
+                "sourceSize": { "w": 32, "h": 32 }
+            },
+            "tank2.png":
+            {
+                "frame": { "x": 32, "y": 32, "w": 32, "h": 32 },
+                "rotated": false,
+                "trimmed": false,
+                "spriteSourceSize": { "x": 0, "y": 32, "w": 32, "h": 32 },
+                "sourceSize": { "w": 32, "h": 32 }
+            },
+            "tank1.png":
+            {
+                "frame": { "x": 64, "y": 32, "w": 32, "h": 32 },
+                "rotated": false,
+                "trimmed": false,
+                "spriteSourceSize": { "x": 0, "y": 32, "w": 32, "h": 32 },
+                "sourceSize": { "w": 32, "h": 32 }
+            },
+            "tank0.png":
+            {
+                "frame": { "x": 96, "y": 32, "w": 32, "h": 32 },
+                "rotated": false,
+                "trimmed": false,
+                "spriteSourceSize": { "x": 0, "y": 32, "w": 32, "h": 32 },
+                "sourceSize": { "w": 32, "h": 32 }
+            }
+        },
+		"meta": {
+				"app": "./",
+				"version": "1.0",
+				"image": "../../assets/master.png",
+				"format": "RGBA8888",
+				"size": {"w":640,"h":640},
+				"scale": "1",
+				"smartupdate": "$TexturePacker:SmartUpdate:17e4a2d92ff3e27832c3f4938cec7c85$"
+		}
+    }

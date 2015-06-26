@@ -4,7 +4,7 @@
     construct: function (start, name, getMapCallback, completeCallback) {
         Soldier.call(this, start, name, getMapCallback, completeCallback);
 
-        this.movieAssets = 'Tank';
+        this.movieAssets = 'TankV2';
         this.queue = [];
         this.actions = {
             go: 'go',

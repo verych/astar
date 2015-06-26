@@ -20,13 +20,20 @@
         this.textureSizeX = 32;
         this.textureSizeY = 32;
 
+        this.shooter = undefined;
 
         this.setPositionCenter();
-        log('Created tower: xyr=' + this.x + '-' + this.y + ': ' + this.r);
+        console.log('Created tower: xyr=' + this.x + '-' + this.y + ': ' + this.r);
+
+        this.run();
     },
 
     run: function () {
-        this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
+        //this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
+        if (this.shooter) {
+            this.shooter.place(this.x, this, y);
+            this.shooter.run();
+        }
     },
 
     doOne: function () {

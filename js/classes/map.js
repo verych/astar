@@ -114,6 +114,22 @@
     coordToIndex: function (coord)
     {
         return Math.floor(coord / this.mapCellSize);
+    },
+
+    getSoldiersInArea: function(x, y, radius) {
+        var results = [];
+        for (var s = 0; s < this.starts.length; s++) {
+            for (var i = 0; i < this.starts[s].soldiers.length; i++) {
+                var distance = Math.sqrt(Math.pow(this.starts[s].soldiers[i].x - x, 2) + Math.pow(this.starts[s].soldiers[i].y - y, 2));
+                if (distance <= radius) {
+                    results.push({
+                        distance: distance,
+                        item: this.starts[s].soldiers[i]
+                    });
+                }
+            }
+        }
+        return results;
     }
 
 });

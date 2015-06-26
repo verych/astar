@@ -30,7 +30,7 @@
         this.drawFramesTime = new Date();
         this.fpsValue = 0;
         this.fpsInterval = undefined;
-        this.fpsIntervalTime = 1000;
+        this.fpsIntervalTime = 100;
         this.calcAstarCount = 0;
         this.assetsLoaded = false;
 
@@ -52,7 +52,7 @@
         //levels
         //debugger;
         this.levels = new Levels();
-        this.levelNumber = 1;
+        this.levelNumber = 2;
         this.levelLoader = this.levels.loaders[this.levelNumber];
 
         this.backgroundImage = null;
@@ -60,6 +60,11 @@
         this.backgroundScaleY = 1;
         this.backgroundPositionX = 1;
         this.backgroundPositionY = 1;
+
+        this.isDrawMap = false;
+        this.drawMapInterval = false;
+        this.drawMapIntervalTime = 100;
+        this.drawMapGraphics = new PIXI.Graphics();
     },
 
     getUid: function(){
@@ -109,10 +114,16 @@
 
         for (var i = 0; i < this.towers.length; i++) {
             this.register(this.towers[i]);
+            if (this.towers[i].shooter) {
+                this.register(this.towers[i].shooter);
+            }
         }
 
+        //busy map debug
+        this.pixiStage.addChild(this.drawMapGraphics);
+
         //events
-        this.addEventListeners();
+        this.addEventListeners(); 
 
         //instead of draw interval
         requestAnimationFrame($.proxy(this.draw, this));
@@ -126,6 +137,8 @@
     loadAssets: function () {
         var loader = PIXI.loader; // pixi exposes a premade instance for you to use.
         loader.add('tank', './js/assets/tank.json');
+        loader.add('tankV2', './js/assets/tankV2.json');
+        loader.add('cannonV2', './js/assets/cannonV2.json');
         loader.once('complete', $.proxy(this.init, this));
         loader.load();
     },
@@ -158,7 +171,6 @@
     },
 
     addEventListeners: function () {
-        $('body canvas').bind('mousedown', $.proxy(this.onCanvasClick, this));
         $(window).bind('keydown', $.proxy(this.onKeyDown, this));
     },
 
@@ -181,6 +193,10 @@
             e.preventDefault();
             this.markAsFinished();
         }
+        if (e.ctrlKey && keyCode == 77) { //ctrl+m
+            e.preventDefault();
+            this.drawMap();
+        }
         if (keyCode == 39) { //right
             e.preventDefault();
             this.moveSelection(1);
@@ -188,6 +204,36 @@
         if (keyCode == 37) { //left
             e.preventDefault();
             this.moveSelection(-1);
+        }
+    },
+
+    drawMap: function () {
+        this.isDrawMap = !this.isDrawMap;
+        if (this.isDrawMap) {
+            //enable interval
+            clearInterval(this.drawMapInterval);
+            this.drawMapInterval = setInterval($.proxy(this.drawMapData, this), this.drawMapIntervalTime);
+        }
+        else {
+            clearInterval(this.drawMapInterval);
+            this.drawMapGraphics.clear();
+        }
+    },
+
+    drawMapData: function () {
+        this.drawMapGraphics.clear();
+        this.drawMapGraphics.lineStyle(1, 0xFFFFFF, 0.1);
+        for (var ix = 0; ix < this.map.busyMap.length; ix++) {
+            for (var iy = 0; iy < this.map.busyMap[ix].length; iy++) {
+
+                if (this.map.busyMap[ix][iy].count) {
+                    this.drawMapGraphics.beginFill(0x000000, 0.3);
+                    var subX = ix * this.map.mapCellSize;
+                    var subY = iy * this.map.mapCellSize;
+                    this.drawMapGraphics.drawRoundedRect(Math.round(subX + this.drawArea.ox ), Math.round(subY + this.drawArea.oy ), this.map.mapCellSize - 1, this.map.mapCellSize - 1, 3);
+                    this.drawMapGraphics.endFill();
+                }
+            }
         }
     },
 
@@ -205,7 +251,7 @@
         for (var s = 0; s < this.starts.length; s++) {
             for (var i = 0; i < this.starts[s].soldiers.length; i++) {
                 if (this.starts[s].soldiers[i].selected) {
-                    this.starts.soldiers[i].finished = true;
+                    this.starts[s].soldiers[i].finished = true;
                 }
             }
         }
