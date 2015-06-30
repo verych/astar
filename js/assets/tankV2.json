@@ -1,6 +1,6 @@
 ﻿{
         "frames": {
-            "tank3.png":
+            "tank23.png":
             {
                 "frame": { "x": 0, "y": 32, "w": 32, "h": 32 },
                 "rotated": false,
@@ -8,7 +8,7 @@
                 "spriteSourceSize": { "x": 0, "y": 32, "w": 32, "h": 32 },
                 "sourceSize": { "w": 32, "h": 32 }
             },
-            "tank2.png":
+            "tank22.png":
             {
                 "frame": { "x": 32, "y": 32, "w": 32, "h": 32 },
                 "rotated": false,
@@ -16,7 +16,7 @@
                 "spriteSourceSize": { "x": 0, "y": 32, "w": 32, "h": 32 },
                 "sourceSize": { "w": 32, "h": 32 }
             },
-            "tank1.png":
+            "tank21.png":
             {
                 "frame": { "x": 64, "y": 32, "w": 32, "h": 32 },
                 "rotated": false,
@@ -24,7 +24,7 @@
                 "spriteSourceSize": { "x": 0, "y": 32, "w": 32, "h": 32 },
                 "sourceSize": { "w": 32, "h": 32 }
             },
-            "tank0.png":
+            "tank20.png":
             {
                 "frame": { "x": 96, "y": 32, "w": 32, "h": 32 },
                 "rotated": false,

@@ -160,45 +160,55 @@
         //starts
         var start1 = new Start(app);
         start1.init();
-        start1.place(30, app.drawArea.h / 2);
+        start1.place(100, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
-        start1.limit = 200;
+        start1.limit = 1000;
         start1.limitPerMap = 5;
-        start1.intervalTime = 2000;
+        start1.sprayY = 600;
+        start1.sprayX = 100;
+        start1.intervalTime = 20;
         app.starts.push(start1);
 
         //soldiers
         start1.genome = {
             health: 16,
             speed: 1,
-            slow: 3,
+            slow: 2,
             radius: 16,
             rotationSpeed: 0.1
         }
        
         //tower    
         var tower = new Tower(app.drawArea);
-        tower.x = 600;
+        tower.x = 500;
         tower.y = start1.y;
-        tower.r = 15;
+        tower.r = 20;
         //shooter
         tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
-        tower.shooter.x = 600;
+        tower.shooter.x = 500;
         tower.shooter.y = start1.y;
-        tower.shooter.r = 16;
+        tower.shooter.r = 20;
+        tower.shooter.bulletSpeed = 20;
+        tower.shooter.bulletSize = 5;
+        tower.shooter.bulletPoints = 20;
+        tower.shooter.shootDelayMs = 1500;
         app.towers.push(tower);
-
+        
         for (var i = 0; i < 11; i++) {
             tower = new Tower(app.drawArea);
-            tower.r = 10;
-            tower.y = start1.y + Math.sin(i) * 50;
-            tower.x = 100 + tower.r * i * 2 * 2;
+            tower.r = 10; //20 + Math.sin(i) * 10;
+            tower.y = start1.y + Math.sin(i) * 10;
+            tower.x = 100 + tower.r * i * 2;
             tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
             tower.shooter.x = tower.x;
             tower.shooter.y = tower.y;
-            tower.shooter.r = 10;
+            tower.shooter.r = 10; //5+ tower.r;
+            tower.shooter.bulletSize = 1;
+            tower.shooter.bulletSpeed = 10;
+            tower.shooter.bulletPoints = 1;
+            tower.shooter.shootDelayMs = 100;
             app.towers.push(tower);
         }
-
+        
     }
 });

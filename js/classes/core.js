@@ -139,6 +139,7 @@
         loader.add('tank', './js/assets/tank.json');
         loader.add('tankV2', './js/assets/tankV2.json');
         loader.add('cannonV2', './js/assets/cannonV2.json');
+        loader.add('explosion', './js/assets/explosion.json');
         loader.once('complete', $.proxy(this.init, this));
         loader.load();
     },
@@ -150,7 +151,6 @@
                 this.pixiStage.addChild(regObject.pixiGetSprite());
                 regObject.registered = true;
                 if (regObject.debugGraphics != null) {
-                    console.log('debug graphics registered for', regObject);
                     this.pixiStage.addChild(regObject.debugGraphics);
                 }
                 regObject.place(regObject.x, regObject.y);

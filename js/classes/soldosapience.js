@@ -40,6 +40,10 @@
         this.gridCellSize = this.r;
         this.debugGraphics = new PIXI.Graphics();
         this.debugGraphicsShowed = false;
+        this.prevHealth = this.health;
+        
+        this.loop = true;
+        this.animationSpeed = this.speed / 15;
     },
 
     getDebugInfo: function () {
@@ -481,6 +485,14 @@
     },
 
     prePlace: function (draw, x, y) {
+        if (this.prevHealth != this.health) {
+            this.prevHealth = this.health;
+            var colorMatrix = new PIXI.filters.ColorMatrixFilter();
+            colorMatrix.saturate(20, 1);
+            (draw.filters == null) ? draw.filters = [colorMatrix] : draw.filters.push(colorMatrix);
+            setTimeout(function () { draw.filters = null; }, 100);
+        }
+
         return; //disabled
         var colorMatrix = new PIXI.filters.ColorMatrixFilter();
         draw.filters = null;
@@ -503,5 +515,18 @@
         var map = this.getMap.call();
         map.updateBusyPositions(this);
         this.complete.call(undefined, this);
+    },
+
+    explosion: function () {
+        var explosion = new Explosion(this.drawArea, $.proxy(this.getMap, this));
+        explosion.r = this.r;
+        explosion.x = this.x;
+        explosion.y = this.y;
+        explosion.place(explosion.x, explosion.y);
+        var map = this.getMap.call();
+        map.register(explosion);
+        var sprite = explosion.pixiGetSprite();
+        sprite.loop = false;
+        
     }
 });

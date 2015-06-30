@@ -15,6 +15,8 @@
         this.limitPerMap = 5;
         this.interval = undefined;
         this.intervalTime = 1500;
+        this.sprayY = 1;
+        this.sprayX = 1;
         this.debugSoldiers = false;
 
         //time for test
@@ -53,7 +55,10 @@
             this.limit--;
             var map = this.getMap.call();
             var soldier = new SoldierSapience(this, 'Soldier #' + this.limit + ' s:' + this.uid, this.getMap, $.proxy(this.removeDisabledSoldiers, this));
-            soldier.place(this.x, this.y);
+            var sx = Math.round(Math.random() * this.sprayX) - this.sprayX/2;
+            var sy = Math.round(Math.random() * this.sprayY) - this.sprayY/2;
+
+            soldier.place(this.x + sx, this.y + sy);
             this.soldiers.push(soldier);
             map.register(soldier);
             soldier.run();

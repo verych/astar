@@ -13,24 +13,34 @@
         this.r = 10;
 
         this.interval = undefined;
-        this.intervalTime = 100;
+        this.intervalTime = 50;
 
-        this.texture = 'shooter01.png';
+        //this.texture = 'shooter01.png';
         this.textureSizeX = 32;
         this.textureSizeY = 32;
+        this.movieAssets = 'CannonV2';
 
         this.target = undefined;
 
-        this.setPositionCenter();
-        console.log('Created shooter: xyr=' + this.x + '-' + this.y + ': ' + this.r);
+        //this.setPositionCenter();
+        //console.log('Created shooter: xyr=' + this.x + '-' + this.y + ': ' + this.r);
 
         this.rotationInterval = undefined;
         this.rotationIntervalTime = 10;
-        this.rotationSpeed = 0.02;
+        this.rotationSpeed = 0.05;
 
         this.rotationInitCorrection = Math.PI;
 
-        this.distance = this.r * 10;
+        this.lastShootTimeMs = Date.now();
+        this.shootDelayMs = 1000;
+        this.bulletSpeed = 10;
+        this.bulletSize = 2;
+        this.bulletPoints = 1;
+
+        this.bullets = [];
+
+        this.loop = true;
+        this.animationSpeed = 0.1;
 
         this.run();
     },
@@ -49,7 +59,9 @@
     },
 
     rotateToTarget: function () {
-        clearInterval(this.rotationInterval);
+        if (this.rotationInterval) {
+            clearInterval(this.rotationInterval);
+        }
         this.rotationInterval = setInterval($.proxy(this.calcNewRotation, this), this.rotationIntervalTime);
     },
 
@@ -98,15 +110,37 @@
 
     rotateCompleted: function () {
         clearInterval(this.rotationInterval);
-        console.log('piu-piu!');
+        if (Date.now() - this.lastShootTimeMs > this.shootDelayMs) {
+            this.lastShootTimeMs = Date.now();
+            this.fire();
+            //console.log('piu-piu!');
+        }
         this.target = null;
     },
 
+    fire: function () {
+        var bullet = new Bullet(this.drawArea, $.proxy(this.getMap, this));
+        bullet.x = this.x;
+        bullet.y = this.y;
+        bullet.speed = this.bulletSpeed;
+        bullet.setTarget(this.target.item);
+        bullet.r = this.bulletSize;
+        bullet.shootPoints = this.bulletPoints;
+        bullet.run();
+        this.bullets.push(bullet);
+
+        var map = this.getMap.call();
+        map.register(bullet);
+    },
+
     checkForTarget: function () {
+        this.distance = this.r * 20;
+
         //debugger;
         var map = this.getMap.call();
         //checking all units
         //debugger;
+        //console.log(this.x, this.y, this.distance);
         var targets = map.getSoldiersInArea(this.x, this.y, this.distance);
         if (targets.length) {
             this.target = targets[0];

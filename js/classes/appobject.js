@@ -19,10 +19,30 @@
         this.textureSizeY = 0;
         this.registered = false;
         this.movieAssets = '';
+        this.loop = false;
+        this.animationSpeed = 1;
         //debug goals
         this.debugGraphics = null;
 
         this.type = 'appobject';
+
+        this.health = 10;
+    },
+
+    shoot: function (points) {
+        this.health -= points;
+        if (this.health <= 0) {
+            this.explosion();
+            this.die();
+        }
+    },
+
+    die: function () {
+
+    },
+
+    explosion: function () {
+
     },
 
     pixiGetFrames: function () {
@@ -56,6 +76,8 @@
         this.movie.interactive = true;
         this.movie.on('mousedown', $.proxy(this.click, this));
         this.movie.on('touchstart', $.proxy(this.click, this));
+        this.movie.loop = this.loop;
+        this.movie.animationSpeed = this.animationSpeed;
 
         this.movie.play();
 
