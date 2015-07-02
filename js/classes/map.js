@@ -16,6 +16,7 @@
 
         this.starts = core.starts;
         this.register = $.proxy(core.register, core);
+        this.core = core;
     },
 
     initBusyMap: function () {

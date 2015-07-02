@@ -34,6 +34,11 @@
         this.calcAstarCount = 0;
         this.assetsLoaded = false;
 
+        this.totalScore = 0;
+        this.totalSkipped = 0;
+        this.towerPoints = 0;
+        this.shooterPoints = 0;
+
         //map
         this.map = undefined;
         this.info = undefined;
@@ -291,6 +296,13 @@
     },
 
     click: function (e) {
+        if (e.data.originalEvent.ctrlKey && this.shooterPoints <= 0) {
+            return;
+        }
+        if (!e.data.originalEvent.ctrlKey && this.towerPoints <= 0) {
+            return;
+        }
+
         var tower = new Tower(this.drawArea);
         tower.x = e.data.global.x - this.drawArea.ox;//e.pageX - e.currentTarget.offsetLeft - this.drawArea.ox;
         tower.y = e.data.global.y - this.drawArea.oy;//e.pageY - e.currentTarget.offsetTop - this.drawArea.oy;
@@ -304,6 +316,10 @@
             tower.shooter.y = tower.y;
             tower.shooter.leveupIncrement = 1;
             this.register(tower.shooter);
+            this.shooterPoints--;
+        }
+        else {
+            this.towerPoints--;
         }
 
         this.repathSoldiers();

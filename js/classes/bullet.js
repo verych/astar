@@ -91,6 +91,7 @@
 
     targetDie: function (target) {
         this.shooter.levelup();
+        this.map.core.totalScore++;
     },
 
     die: function () {

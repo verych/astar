@@ -436,8 +436,10 @@
 
         if (this.finished) //finished flag sets from Map
         {
-            this.finished = false;
             this.removeAction(this.actions.go);
+            if (this.queue.length > 0) {
+                this.finished = false;
+            }
         }
         map.updateBusyPositions(this);
     },
@@ -531,9 +533,13 @@
     },
 
     die: function () {
+//        debugger;
+        var map = this.getMap.call();
+        if (this.finished) {
+            map.core.totalSkipped++;
+        }
         clearInterval(this.interval);
         this.enabled = false;
-        var map = this.getMap.call();
         map.updateBusyPositions(this);
         this.complete.call(undefined, this);
     },

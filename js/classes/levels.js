@@ -157,13 +157,17 @@
         app.backgroundPositionX = -10;
         app.backgroundPositionY = -20;
 
+        //limits
+        app.towerPoints = 500;
+        app.shooterPoints = 100;
+
         //starts
         var start1 = new Start(app);
         start1.init();
         start1.place(10, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
         start1.limit = 1000;
-        start1.limitPerMap = 20;
+        start1.limitPerMap = 10;
         start1.sprayY = 300;
         start1.sprayX = 1;
         start1.intervalTime = 20;
@@ -178,13 +182,13 @@
             radius: 10,
             rotationSpeed: 0.1,
             attributePoints: 0,
-            attributePointsIncrement: 0.1,
+            attributePointsIncrement: 0.07,
             maxRadius: 20,
             maxSpeed: 50
         }
        
         //tower    
-        
+        /*
         var tower = new Tower(app.drawArea);
         tower.x = app.canvas.width / 2 + 150;
         tower.y = start1.y;
@@ -201,7 +205,7 @@
         tower.shooter.rotationSpeed = 0.05;
         tower.shooter.leveupIncrement = 0.6;
         app.towers.push(tower);
-        
+        */
         /*
         for (var i = 0; i < 5; i++) {
             tower = new Tower(app.drawArea);

@@ -30,7 +30,6 @@
     doOne: function () {
         //checking for die
         if (this.movie && !this.movie.playing) {
-            console.log('die');
             this.die();
         }
     },

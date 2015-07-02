@@ -8,7 +8,6 @@
         this.getMap = getMapCallback;
 
         this.speed = 0;
-        this.power = 1;
 
         this.r = 10;
 
@@ -34,7 +33,8 @@
 
         this.lastShootTimeMs = Date.now();
         this.shootDelayMs = 1000;
-        this.bulletSpeed = 4;
+        this.bulletSpeed = 1;
+        this.bulletSpeedMax = 20;
         this.bulletSize = 1;
         this.bulletSizeMax = 10;
         this.bulletPoints = 1;
@@ -45,7 +45,7 @@
         this.animationSpeed = 0.1;
 
         this.score = 0;
-        this.leveupIncrement = 1;
+        this.leveupIncrement = 0.7;
 
         this.distance = 150;
 
@@ -80,6 +80,11 @@
         if (this.rotationSpeed > this.rotationSpeedMax) {
             this.rotationSpeed = this.rotationSpeedMax;
         }
+        if (this.bulletSpeed > this.bulletSpeedMax) {
+            this.bulletSpeed = this.bulletSpeedMax;
+        }
+
+        
     },
 
     rotateToTarget: function () {
