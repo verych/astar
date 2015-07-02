@@ -20,7 +20,7 @@
 
         this.drawArea = { ox: this.canvasOffsetLeft, oy: this.canvasOffsetTop, w: w - this.canvasOffsetLeft * 2, h: h - this.canvasOffsetTop * 2 };
 
-        log('screen: ' + this.drawArea.w + ' * ' + this.drawArea.h);
+        //log('screen: ' + this.drawArea.w + ' * ' + this.drawArea.h);
 
         this.context = this.canvas.getContext('2d');
         this.intervalDraw = undefined;
@@ -73,7 +73,7 @@
 
     init: function () {
         //debugger;
-        console.log("core init");
+        //console.log("core init");
 
         if (this.renderer == 'pixi') {
             //load assets
@@ -102,6 +102,11 @@
             this.backgroundSprite.scale.y = this.backgroundScaleY;
             this.backgroundSprite.position.x = this.backgroundPositionX;
             this.backgroundSprite.position.y = this.backgroundPositionY;
+            //events
+            this.backgroundSprite.interactive = true;
+            this.backgroundSprite.on('mousedown', $.proxy(this.click, this));
+            this.backgroundSprite.on('touchstart', $.proxy(this.click, this));
+
             this.pixiStage.addChild(this.backgroundSprite);
         }
 
@@ -285,15 +290,22 @@
         console.log("selection ", soldiers.length, index);
     },
 
-    onCanvasClick: function (e) {
-        //debugger;
-        log('Event: click ' + (e.pageX - e.currentTarget.offsetLeft) + ' ' + (e.pageY - e.currentTarget.offsetTop));
+    click: function (e) {
         var tower = new Tower(this.drawArea);
-        tower.x = e.pageX - e.currentTarget.offsetLeft - this.drawArea.ox;
-        tower.y = e.pageY - e.currentTarget.offsetTop - this.drawArea.oy;
+        tower.x = e.data.global.x - this.drawArea.ox;//e.pageX - e.currentTarget.offsetLeft - this.drawArea.ox;
+        tower.y = e.data.global.y - this.drawArea.oy;//e.pageY - e.currentTarget.offsetTop - this.drawArea.oy;
         tower.place(tower.x, tower.y);
         this.towers.push(tower);
         this.register(tower);
+
+        if (e.data.originalEvent.ctrlKey) {
+            tower.shooter = new Shooter(this.drawArea, $.proxy(this.getMap, this));
+            tower.shooter.x = tower.x;
+            tower.shooter.y = tower.y;
+            tower.shooter.leveupIncrement = 1;
+            this.register(tower.shooter);
+        }
+
         this.repathSoldiers();
     },
 

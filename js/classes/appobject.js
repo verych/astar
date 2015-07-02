@@ -29,11 +29,12 @@
         this.health = 10;
     },
 
-    shoot: function (points) {
+    shoot: function (points, dieCallback) {
         this.health -= points;
         if (this.health <= 0) {
             this.explosion();
             this.die();
+            dieCallback.call(null, this);
         }
     },
 

@@ -27,20 +27,27 @@
 
         this.rotationInterval = undefined;
         this.rotationIntervalTime = 10;
-        this.rotationSpeed = 0.05;
+        this.rotationSpeed = 0.02;
+        this.rotationSpeedMax = 0.5;
 
         this.rotationInitCorrection = Math.PI;
 
         this.lastShootTimeMs = Date.now();
         this.shootDelayMs = 1000;
-        this.bulletSpeed = 10;
-        this.bulletSize = 2;
+        this.bulletSpeed = 4;
+        this.bulletSize = 1;
+        this.bulletSizeMax = 10;
         this.bulletPoints = 1;
 
         this.bullets = [];
 
         this.loop = true;
         this.animationSpeed = 0.1;
+
+        this.score = 0;
+        this.leveupIncrement = 1;
+
+        this.distance = 150;
 
         this.run();
     },
@@ -58,9 +65,27 @@
         }
     },
 
+    levelup: function (target) {
+        this.score++;
+        
+        this.rotationSpeed += this.leveupIncrement/500;
+        this.bulletSpeed += this.leveupIncrement * 2;
+        this.distance += this.leveupIncrement * 2;
+        this.bulletSize += this.leveupIncrement / 10;
+        this.shootDelayMs -= this.leveupIncrement;
+
+        if (this.bulletSize > this.bulletSizeMax) {
+            this.bulletSize = this.bulletSizeMax;
+        }
+        if (this.rotationSpeed > this.rotationSpeedMax) {
+            this.rotationSpeed = this.rotationSpeedMax;
+        }
+    },
+
     rotateToTarget: function () {
         if (this.rotationInterval) {
             clearInterval(this.rotationInterval);
+            this.rotationInterval = 0;
         }
         this.rotationInterval = setInterval($.proxy(this.calcNewRotation, this), this.rotationIntervalTime);
     },
@@ -109,7 +134,10 @@
     },
 
     rotateCompleted: function () {
-        clearInterval(this.rotationInterval);
+        if (this.rotationInterval) {
+            clearInterval(this.rotationInterval);
+            this.rotationInterval = 0;
+        }
         if (Date.now() - this.lastShootTimeMs > this.shootDelayMs) {
             this.lastShootTimeMs = Date.now();
             this.fire();
@@ -119,7 +147,7 @@
     },
 
     fire: function () {
-        var bullet = new Bullet(this.drawArea, $.proxy(this.getMap, this));
+        var bullet = new Bullet(this.drawArea, $.proxy(this.getMap, this), this);
         bullet.x = this.x;
         bullet.y = this.y;
         bullet.speed = this.bulletSpeed;
@@ -134,8 +162,6 @@
     },
 
     checkForTarget: function () {
-        this.distance = this.r * 20;
-
         //debugger;
         var map = this.getMap.call();
         //checking all units

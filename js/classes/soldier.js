@@ -123,8 +123,8 @@
     initAttributes: function () {
         //debugger;
         this.speed = this.genome.speed + this.allocRandomPoints();
-        this.genome.radius = this.genome.radius + this.allocRandomPoints();
-        this.health = this.genome.health;
+        this.genome.radius = this.genome.radius;// + this.allocRandomPoints();
+        this.health = this.genome.health + this.allocRandomPoints();
         this.r = this.genome.radius;
         this.speed = this.speed + this.r / 4;
         this.slow = this.genome.slow;

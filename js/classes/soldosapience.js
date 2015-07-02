@@ -19,6 +19,7 @@
 
         if (start.genome) {
             this.genome = $.extend({}, start.genome);
+            start.genome.attributePoints += start.genome.attributePointsIncrement;
         }
         else {
             this.genome = {
@@ -26,7 +27,10 @@
                 speed: 1,
                 slow: 3,
                 radius: 8,
-                rotationSpeed: 0.2
+                rotationSpeed: 0.2,
+                attributePoints: 4,
+                maxRadius: 10,
+                maxSpeed: 2
             }
         }
         //test
@@ -44,6 +48,23 @@
         
         this.loop = true;
         this.animationSpeed = this.speed / 15;
+    },
+
+    initAttributes: function () {
+        //debugger;
+        this.attributePoints = this.genome.attributePoints;
+        this.health = this.genome.health + this.allocRandomPoints();
+        this.speed = this.genome.speed + this.allocRandomPoints();
+        this.rotationSpeed = this.genome.rotationSpeed + this.allocRandomPoints(true);
+        this.r = this.genome.radius + this.health / 4;
+        if (this.r > this.genome.maxRadius) {
+            this.r = this.genome.maxRadius;
+        }
+        this.speed = this.speed + this.r / 4;
+        if (this.speed > this.genome.maxSpeed) {
+            this.speed = this.genome.maxSpeed;
+        }
+        this.slow = this.genome.slow;
     },
 
     getDebugInfo: function () {
@@ -523,10 +544,6 @@
         explosion.x = this.x;
         explosion.y = this.y;
         explosion.place(explosion.x, explosion.y);
-        var map = this.getMap.call();
-        map.register(explosion);
-        var sprite = explosion.pixiGetSprite();
-        sprite.loop = false;
-        
+        explosion.run();
     }
 });

@@ -1,7 +1,7 @@
 ﻿var Bullet = createClass({
     extend: AppObject,
 
-    construct: function (drawArea, getMapCallback) {
+    construct: function (drawArea, getMapCallback, shooter) {
         AppObject.call(this);
         this.type = 'bullet';
         this.drawArea = drawArea;
@@ -13,7 +13,7 @@
         this.shootPoints = 1;
 
         this.interval = undefined;
-        this.intervalTime = 30;
+        this.intervalTime = 20;
 
         this.vectorX = 0;
         this.vectorY = 0;
@@ -35,6 +35,8 @@
         this.animationSpeed = 0.1;
 
         this.rotationInitCorrection = Math.PI;
+
+        this.shooter = shooter;
     },
 
     setTarget: function (obj) {
@@ -75,7 +77,7 @@
             var targets = this.map.getSoldiersByPoint(this.x, this.y, this.r);
             if (targets.length) {
                 for (var i = 0; i < targets.length; i++) {
-                    targets[i].item.shoot(this.shootPoints);
+                    targets[i].item.shoot(this.shootPoints, $.proxy(this.targetDie, this));
                 }
                 this.die();
             }
@@ -85,6 +87,10 @@
         this.y += this.vectorY;
 
         this.place(this.x, this.y);
+    },
+
+    targetDie: function (target) {
+        this.shooter.levelup();
     },
 
     die: function () {
