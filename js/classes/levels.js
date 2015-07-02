@@ -144,9 +144,9 @@
     getLevelTest3: function (app) {
         //screen size
         app.canvas.width = 1200;
-        app.canvas.height = 800;
+        app.canvas.height = 700;
         app.drawArea.w = 1200;
-        app.drawArea.h = 760;
+        app.drawArea.h = 660;
         app.drawArea.ox = 5;
         app.drawArea.oy = 20;
 
@@ -167,7 +167,7 @@
         start1.place(10, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
         start1.limit = 1000;
-        start1.limitPerMap = 10;
+        start1.limitPerMap = 12;
         start1.sprayY = 300;
         start1.sprayX = 1;
         start1.intervalTime = 20;
@@ -182,7 +182,7 @@
             radius: 10,
             rotationSpeed: 0.1,
             attributePoints: 0,
-            attributePointsIncrement: 0.07,
+            attributePointsIncrement: 0.08,
             maxRadius: 20,
             maxSpeed: 50
         }
