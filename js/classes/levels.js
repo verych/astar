@@ -158,7 +158,7 @@
         app.backgroundPositionY = -20;
 
         //limits
-        app.towerPoints = 500;
+        app.towerPoints = 100;
         app.shooterPoints = 100;
 
         //starts
