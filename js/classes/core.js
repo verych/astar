@@ -296,10 +296,10 @@
     },
 
     click: function (e) {
-        if (e.data.originalEvent.ctrlKey && this.shooterPoints <= 0) {
+        if (!e.data.originalEvent.ctrlKey && this.shooterPoints <= 0) {
             return;
         }
-        if (!e.data.originalEvent.ctrlKey && this.towerPoints <= 0) {
+        if (e.data.originalEvent.ctrlKey && this.towerPoints <= 0) {
             return;
         }
 
@@ -310,7 +310,7 @@
         this.towers.push(tower);
         this.register(tower);
 
-        if (e.data.originalEvent.ctrlKey) {
+        if (!e.data.originalEvent.ctrlKey) {
             tower.shooter = new Shooter(this.drawArea, $.proxy(this.getMap, this));
             tower.shooter.x = tower.x;
             tower.shooter.y = tower.y;
