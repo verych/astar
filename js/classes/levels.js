@@ -194,11 +194,11 @@
         start1.init();
         start1.place(10, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
-        start1.limit = 10000;
-        start1.limitPerMap = 10;
-        start1.sprayY = 300;
+        start1.limit = 1000;
+        start1.limitPerMap = 5;
+        start1.sprayY = 500;
         start1.sprayX = 1;
-        start1.intervalTime = 20;
+        start1.intervalTime = 1000;
 
         app.starts.push(start1);
 
@@ -206,11 +206,11 @@
         start2.init();
         start2.place(app.drawArea.w / 2, 10);
         start2.finish.place(app.drawArea.w / 2, app.drawArea.h - 30);
-        start2.limit = 10000;
-        start2.limitPerMap = 10;
+        start2.limit = 1000;
+        start2.limitPerMap = 5;
         start2.sprayY = 1;
-        start2.sprayX = 300;
-        start2.intervalTime = 20;
+        start2.sprayX = 500;
+        start2.intervalTime = 1000;
 
         app.starts.push(start2);
 
