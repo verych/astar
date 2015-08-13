@@ -77,7 +77,7 @@
             var targets = this.map.getSoldiersByPoint(this.x, this.y, this.r);
             if (targets.length) {
                 for (var i = 0; i < targets.length; i++) {
-                    targets[i].item.shoot(this.shootPoints, $.proxy(this.targetDie, this));
+                    targets[i].item.shoot(this.shootPoints, $.proxy(this.targetDie, this), this);
                 }
                 this.die();
             }

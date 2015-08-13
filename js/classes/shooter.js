@@ -26,14 +26,14 @@
 
         this.rotationInterval = undefined;
         this.rotationIntervalTime = 10;
-        this.rotationSpeed = 0.02;
+        this.rotationSpeed = 0.04;
         this.rotationSpeedMax = 0.5;
 
         this.rotationInitCorrection = Math.PI;
 
         this.lastShootTimeMs = Date.now();
         this.shootDelayMs = 1000;
-        this.bulletSpeed = 1;
+        this.bulletSpeed = 3;
         this.bulletSpeedMax = 20;
         this.bulletSize = 1;
         this.bulletSizeMax = 10;
@@ -45,7 +45,7 @@
         this.animationSpeed = 0.1;
 
         this.score = 0;
-        this.leveupIncrement = 0.7;
+        this.leveupIncrement = 0.1;
 
         this.distance = 150;
 
@@ -69,9 +69,9 @@
         this.score++;
         
         this.rotationSpeed += this.leveupIncrement/500;
-        this.bulletSpeed += this.leveupIncrement * 2;
-        this.distance += this.leveupIncrement * 2;
-        this.bulletSize += this.leveupIncrement / 10;
+        this.bulletSpeed += this.leveupIncrement;
+        this.distance += this.leveupIncrement;
+        this.bulletSize += this.leveupIncrement / 100;
         this.shootDelayMs -= this.leveupIncrement;
 
         if (this.bulletSize > this.bulletSizeMax) {
@@ -84,7 +84,8 @@
             this.bulletSpeed = this.bulletSpeedMax;
         }
 
-        
+        this.bulletPoints += (this.leveupIncrement);
+        this.r += (this.leveupIncrement/100);
     },
 
     rotateToTarget: function () {

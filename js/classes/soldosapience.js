@@ -15,7 +15,10 @@
         this.currentAction = '';
         this.stopTimeDuration = 0;
         this.deepDebug = false;
-        this.fallbackDistance = 3;
+        this.fallbackDistance = 5;
+
+        this.isDamaged = false;
+        this.lastBulletInfo = null;
 
         if (start.genome) {
             this.genome = $.extend({}, start.genome);
@@ -419,6 +422,17 @@
             }
             return;
         }
+
+        //damage checking
+        if (this.isDamaged) {
+            this.isDamaged = false;
+            if (this.lastBulletInfo) {
+                //this.quickFallback();
+                return;
+            }
+            //this.fallbackRnd();
+        }
+
         this.moveChanged(true);
         this.isStoped = false;
 
@@ -442,6 +456,14 @@
             }
         }
         map.updateBusyPositions(this);
+    },
+
+    quickFallback: function () {
+        //checking bullet vector
+        //if(this.vectorX > 0 && this)
+
+        //todo
+        this.goto(this.x + (Math.floor((Math.random() * 2 * this.fallbackDistance * this.r) - this.r * this.fallbackDistance)), this.y + (Math.floor((Math.random() * 2 * this.fallbackDistance * this.r) - this.r * this.fallbackDistance)), { fallback: true });
     },
 
     moveChanged: function (moveState) {
@@ -551,5 +573,16 @@
         explosion.y = this.y;
         explosion.place(explosion.x, explosion.y);
         explosion.run();
+    },
+
+    shoot: function (points, dieCallback, bullet) {
+        this.isDamaged = true;
+        this.lastBulletInfo = bullet;
+        this.health -= points;
+        if (this.health <= 0) {
+            this.explosion();
+            this.die();
+            dieCallback.call(null, this);
+        }
     }
 });

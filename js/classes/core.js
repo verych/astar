@@ -60,6 +60,11 @@
         this.levelNumber = 2;
         this.levelLoader = this.levels.loaders[this.levelNumber];
 
+        this.backgroundContainer = new PIXI.Container(); //z = 0
+        this.soldiersContainer = new PIXI.Container(); //z = 1
+        this.treesContainer = new PIXI.Container(); // z = 2
+        this.infoContainer = new PIXI.Container(); // z = 2
+        this.debugContainer = new PIXI.Container(); // z = 2
         this.backgroundImage = null;
         this.backgroundScaleX = 1;
         this.backgroundScaleY = 1;
@@ -101,6 +106,7 @@
         $('body form').append(this.pixiRenderer.view);
 
         //background
+        this.pixiStage.addChild(this.backgroundContainer);
         if (this.backgroundImage) {
             this.backgroundSprite = PIXI.Sprite.fromImage('./assets/' + this.backgroundImage);
             this.backgroundSprite.scale.x = this.backgroundScaleX;
@@ -112,15 +118,19 @@
             this.backgroundSprite.on('mousedown', $.proxy(this.click, this));
             this.backgroundSprite.on('touchstart', $.proxy(this.click, this));
 
-            this.pixiStage.addChild(this.backgroundSprite);
+            this.backgroundContainer.addChild(this.backgroundSprite);
         }
+        this.pixiStage.addChild(this.soldiersContainer);
+        this.pixiStage.addChild(this.treesContainer);
+        this.pixiStage.addChild(this.infoContainer);
+        this.pixiStage.addChild(this.debugContainer);
 
         //init objects
         for (var i = 0; i < this.starts.length; i++) {
-            this.pixiStage.addChild(this.starts[i].pixiGetSprite());
-            this.pixiStage.addChild(this.starts[i].finish.pixiGetSprite());
+            this.backgroundContainer.addChild(this.starts[i].pixiGetSprite());
+            this.backgroundContainer.addChild(this.starts[i].finish.pixiGetSprite());
         }
-        this.pixiStage.addChild(this.info.pixiGetText());
+        this.infoContainer.addChild(this.info.pixiGetText());
 
         for (var i = 0; i < this.towers.length; i++) {
             this.register(this.towers[i]);
@@ -130,7 +140,7 @@
         }
 
         //busy map debug
-        this.pixiStage.addChild(this.drawMapGraphics);
+        this.debugContainer.addChild(this.drawMapGraphics);
 
         //events
         this.addEventListeners(); 
@@ -158,22 +168,22 @@
         if (this.renderer == 'pixi') {
             if (!regObject.registered)
             {
-                this.pixiStage.addChild(regObject.pixiGetSprite());
+                this.treesContainer.addChild(regObject.pixiGetSprite());
                 regObject.registered = true;
                 if (regObject.debugGraphics != null) {
-                    this.pixiStage.addChild(regObject.debugGraphics);
+                    this.treesContainer.addChild(regObject.debugGraphics);
                 }
                 regObject.place(regObject.x, regObject.y);
             }
             else {
                 if (regObject.sprite) {
-                    this.pixiStage.removeChild(regObject.sprite);
+                    this.treesContainer.removeChild(regObject.sprite);
                 }
                 if (regObject.movie) {
-                    this.pixiStage.removeChild(regObject.movie);
+                    this.treesContainer.removeChild(regObject.movie);
                 }
                 if (regObject.debugGraphics != null) {
-                    this.pixiStage.removeChild(regObject.debugGraphics);
+                    this.treesContainer.removeChild(regObject.debugGraphics);
                 }
                 regObject.registered = false;
             }

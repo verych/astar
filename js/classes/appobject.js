@@ -29,7 +29,7 @@
         this.health = 10;
     },
 
-    shoot: function (points, dieCallback) {
+    shoot: function (points, dieCallback, bullet) {
         this.health -= points;
         if (this.health <= 0) {
             this.explosion();
@@ -59,7 +59,7 @@
     },
 
     pixiGetMovie: function () {
-        //debugger;
+        debugger;
         var textures = [];
         var frames = this.pixiGetFrames();
         for (var i in this.pixiGetFrames()) {
