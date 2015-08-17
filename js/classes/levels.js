@@ -195,10 +195,11 @@
         start1.place(10, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
         start1.limit = 1000;
-        start1.limitPerMap = 10;
+        start1.limitPerMap = 1;
         start1.sprayY = 500;
         start1.sprayX = 1;
-        start1.intervalTime = 3000;
+        start1.intervalTime = 300;
+        start1.limitPerMapIncrements = [2, 5, 10, 20, 30, 50, 100, 200, 300, 400, 500];
 
         app.starts.push(start1);
 
@@ -211,15 +212,16 @@
         start2.sprayY = 1;
         start2.sprayX = 500;
         start2.intervalTime = 1000;
+        start2.limitPerMapIncrements = [10, 20, 30, 50, 100, 200, 300, 400, 500];
 
         app.starts.push(start2);
 
         //soldiers
         //slow aand fat
         start1.genome = {
-            health: 20,
+            health: 30,
             speed: 1,
-            slow: 3,
+            slow: 4,
             radius: 10,
             rotationSpeed: 0.05,
             attributePoints: 0,
@@ -392,13 +394,54 @@
         }
         //S
         tprev = null;
-        for (var i = 0; i < 30; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 10 + Math.cos(i) * 3;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.0) : ty - 100);
-            tower.x = tx + 600 + Math.cos(i/4 + 1) * 50;
+        for (var i = 0; i < 15; i++) {
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), {hasShooter: false});
+            tower.r = 20 + Math.cos(i) * 3;
+            tower.y = (tprev ? (tprev.y + tprev.r * 1) : ty - 150);
+            tower.x = tx + 600 + Math.sin(i / 2 + 3) * 100;
             app.towers.push(tower);
             tprev = tower;
+        /*
+            tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
+            tower.shooter.x = tower.x;
+            tower.shooter.y = tower.y;
+            tower.shooter.r = tower.r;
+            tower.shooter.bulletSize = 2;
+            tower.shooter.bulletSpeed = tower.r/10;
+            tower.shooter.bulletPoints = 1;
+            tower.shooter.shootDelayMs = 5000;
+            tower.shooter.rotationSpeed = 0.01;
+            tower.shooter.distance = 500;
+            tower.shooter.leveupIncrement = 0.1;
+            */
+        }
+        for (var i = 0; i < 100; i++) {
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 20 + Math.cos(i) * 10;
+            tower.y = Math.cos(i) * (100 - i) ;
+            tower.x = i * 10;
+            tower.transparent = true;
+            app.towers.push(tower);
+            /*
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 15 + Math.cos(i) * 5;
+            tower.y = app.drawArea.h;
+            tower.x = i * 15;
+            app.towers.push(tower);
+            */
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 20 + Math.cos(i) * 10;
+            tower.x = Math.cos(i) * (100 - i);
+            tower.y = i * 5 + Math.random() * 10;
+            tower.transparent = true;
+            app.towers.push(tower);
+            /*
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 10 + Math.cos(i) * 5;
+            tower.x = app.drawArea.w;
+            tower.y = i * 15;
+            app.towers.push(tower);
+            */
         }
     }
 });

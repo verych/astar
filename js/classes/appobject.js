@@ -24,6 +24,8 @@
         //debug goals
         this.debugGraphics = null;
 
+        this.scale = 1;
+
         this.type = 'appobject';
 
         this.health = 10;
@@ -161,8 +163,8 @@
             
             //scale texture
             if (this.textureSizeX && this.textureSizeY) {
-                draw.scale.x = 2 * this.r / this.textureSizeX;
-                draw.scale.y = 2 * this.r / this.textureSizeY;
+                draw.scale.x = 2 * this.r / this.textureSizeX * this.scale;
+                draw.scale.y = 2 * this.r / this.textureSizeY * this.scale;
             }
         }
         else {

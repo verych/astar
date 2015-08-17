@@ -164,30 +164,35 @@
         loader.load();
     },
 
-    register: function (regObject) {
+    register: function (regObject, container) {
+        container = container ? container : this.treesContainer;
         if (this.renderer == 'pixi') {
             if (!regObject.registered)
             {
-                this.treesContainer.addChild(regObject.pixiGetSprite());
+                container.addChild(regObject.pixiGetSprite());
                 regObject.registered = true;
                 if (regObject.debugGraphics != null) {
-                    this.treesContainer.addChild(regObject.debugGraphics);
+                    container.addChild(regObject.debugGraphics);
                 }
                 regObject.place(regObject.x, regObject.y);
             }
             else {
                 if (regObject.sprite) {
-                    this.treesContainer.removeChild(regObject.sprite);
+                    container.removeChild(regObject.sprite);
                 }
                 if (regObject.movie) {
-                    this.treesContainer.removeChild(regObject.movie);
+                    container.removeChild(regObject.movie);
                 }
                 if (regObject.debugGraphics != null) {
-                    this.treesContainer.removeChild(regObject.debugGraphics);
+                    container.removeChild(regObject.debugGraphics);
                 }
                 regObject.registered = false;
             }
         }
+    },
+
+    registerSoldier: function (regObject) {
+        this.register(regObject, this.soldiersContainer);
     },
 
     addEventListeners: function () {
@@ -313,7 +318,8 @@
             return;
         }
 
-        var tower = new Tower(this.drawArea);
+        var tower = new Tower(this.drawArea, $.proxy(this.getMap, this), { hasShooter: !e.data.originalEvent.ctrlKey, isRandomTree: e.data.originalEvent.ctrlKey });
+        tower.r = (!e.data.originalEvent.ctrlKey) ? 10 : 20;
         tower.x = e.data.global.x - this.drawArea.ox;//e.pageX - e.currentTarget.offsetLeft - this.drawArea.ox;
         tower.y = e.data.global.y - this.drawArea.oy;//e.pageY - e.currentTarget.offsetTop - this.drawArea.oy;
         tower.place(tower.x, tower.y);

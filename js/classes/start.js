@@ -18,6 +18,8 @@
         this.sprayY = 1;
         this.sprayX = 1;
         this.debugSoldiers = false;
+        this.limitPerMapIncrements = [];
+        this.totalSoldiersCreated = 0;
 
         //time for test
         this.timeStartGeneration = undefined;
@@ -60,8 +62,14 @@
 
             soldier.place(this.x + sx, this.y + sy);
             this.soldiers.push(soldier);
-            map.register(soldier);
+            map.core.registerSoldier(soldier);
             soldier.run();
+            this.totalSoldiersCreated++;
+
+            //checking for increment
+            if (this.limitPerMapIncrements.indexOf(this.totalSoldiersCreated) >= 0) {
+                this.limitPerMap++;
+            }
         }
         //log('Created "' + soldier.name + '"');
     },
@@ -72,7 +80,7 @@
         this.soldiers.splice(i, 1);
         if (soldier.registered) {
             var map = this.getMap.call();
-            map.register(soldier);
+            map.core.registerSoldier(soldier);
         }
         //this.soldiers.count--;
     },

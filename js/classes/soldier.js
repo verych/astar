@@ -310,6 +310,9 @@
         var d = this.gridCellSize * 2.0;
         for (var n = 0; n < towers.length; n++) {
             var tower = towers[n];
+            if (tower.transparent) {
+                continue;
+            }
             //calculating i and j for tower corners
             var i1 = Math.floor((tower.x - tower.r) / d);
             var j1 = Math.floor((tower.y - tower.r) / d);
