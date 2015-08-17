@@ -24,7 +24,8 @@
             health: 10,
             speed: 5,
             slow: 1,
-            radius: 16
+            radius: 16,
+            stupidPercent: 0.1
         };
         this.attributePoints = 10;
         this.initAttributes();

@@ -59,7 +59,6 @@
     },
 
     pixiGetMovie: function () {
-        debugger;
         var textures = [];
         var frames = this.pixiGetFrames();
         for (var i in this.pixiGetFrames()) {

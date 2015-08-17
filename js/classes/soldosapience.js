@@ -33,7 +33,8 @@
                 rotationSpeed: 0.2,
                 attributePoints: 4,
                 maxRadius: 10,
-                maxSpeed: 2
+                maxSpeed: 2,
+                stupidPercent: 0.1
             }
         }
         //test
@@ -427,7 +428,9 @@
         if (this.isDamaged) {
             this.isDamaged = false;
             if (this.lastBulletInfo) {
-                //this.quickFallback();
+                if (this.isStupid()) {
+                    this.quickFallback();
+                }
                 return;
             }
             //this.fallbackRnd();
@@ -584,5 +587,11 @@
             this.die();
             dieCallback.call(null, this);
         }
+    },
+
+    isStupid: function () {
+        var val = Math.random();
+        var stupid = this.genome.stupidPercent > val;
+        return stupid;
     }
 });
