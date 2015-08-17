@@ -318,8 +318,8 @@
             return;
         }
 
-        var tower = new Tower(this.drawArea, $.proxy(this.getMap, this), { hasShooter: !e.data.originalEvent.ctrlKey, isRandomTree: e.data.originalEvent.ctrlKey });
-        tower.r = (!e.data.originalEvent.ctrlKey) ? 10 : 20;
+        var tower = new Tower(this.drawArea, $.proxy(this.getMap, this), { hasShooter: !e.data.originalEvent.ctrlKey });
+        tower.r = (!e.data.originalEvent.ctrlKey) ? 10 : (5 + Math.random() * 10);
         tower.x = e.data.global.x - this.drawArea.ox;//e.pageX - e.currentTarget.offsetLeft - this.drawArea.ox;
         tower.y = e.data.global.y - this.drawArea.oy;//e.pageY - e.currentTarget.offsetTop - this.drawArea.oy;
         tower.place(tower.x, tower.y);
