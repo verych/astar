@@ -14,7 +14,7 @@
 
     pixiGetText: function () {
         // center the sprites anchor point
-        this.text = new PIXI.Text('', { font: "10px Arial", fill: "black" });
+        this.text = new PIXI.Text('', { font: "10px Arial", fill: "white" });
 
         this.text.anchor.x = 0;
         this.text.anchor.y = 0;

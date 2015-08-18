@@ -227,8 +227,8 @@
             attributePoints: 0,
             attributePointsIncrement: 0.5,
             maxRadius: 20,
-            maxSpeed: 20,
-            stupidPercent: 0.05
+            maxSpeed: 18,
+            stupidPercent: 0.03
         }
         //speedy
         start2.genome = {
@@ -238,9 +238,9 @@
             radius: 8,
             rotationSpeed: 0.3,
             attributePoints: 0,
-            attributePointsIncrement: 0.2,
+            attributePointsIncrement: 0.1,
             maxRadius: 15,
-            maxSpeed: 50,
+            maxSpeed: 40,
             stupidPercent: 0.05
         }
 
@@ -442,6 +442,21 @@
             tower.y = i * 15;
             app.towers.push(tower);
             */
+        }
+        for (var i = 0; i < 20; i++) {
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 30 + Math.cos(i) * 5;
+            tower.y = app.drawArea.h - 30 - 30 * Math.cos(i);
+            tower.x = 400 + i * 20 + 30 * Math.cos(i);
+            tower.transparent = true;
+            app.towers.push(tower);
+            
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 30 + Math.cos(i) * 5;
+            tower.x = app.drawArea.w + 30 * Math.cos(i) - 30;
+            tower.y = 200 + i * 15 + 10 * Math.cos(i);
+            tower.transparent = true;
+            app.towers.push(tower);
         }
     }
 });
