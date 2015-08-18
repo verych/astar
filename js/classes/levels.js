@@ -15,10 +15,10 @@
 
     getLevelTest1: function (app) {
         //screen size
-        app.canvas.width = 1200;
-        app.canvas.height = 800;
-        app.drawArea.w = 1200;
-        app.drawArea.h = 740;
+        app.canvas.width = 1500;
+        app.canvas.height = 1000;
+        app.drawArea.w = 1500;
+        app.drawArea.h = 1000;
         app.drawArea.ox = 5;
         app.drawArea.oy = 0;
 
@@ -171,23 +171,23 @@
 
     getLevelTest3: function (app) {
         //screen size
-        app.canvas.width = 1200;
-        app.canvas.height = 700;
-        app.drawArea.w = 1200;
-        app.drawArea.h = 700;
+        app.canvas.width = 1500;
+        app.canvas.height = 900;
+        app.drawArea.w = 1500;
+        app.drawArea.h = 900;
         app.drawArea.ox = 0;
         app.drawArea.oy = 0;
 
         //background
         app.backgroundImage = 'bg7.jpg';
-        app.backgroundScaleX = .9;
-        app.backgroundScaleY = .9;
+        app.backgroundScaleX = 1.1;
+        app.backgroundScaleY = 1.1;
         app.backgroundPositionX = -10;
         app.backgroundPositionY = -20;
 
         //limits
         app.towerPoints = 100;
-        app.shooterPoints = 100;
+        app.shooterPoints = 30;
 
         //starts
         var start1 = new Start(app);
@@ -225,9 +225,9 @@
             radius: 10,
             rotationSpeed: 0.05,
             attributePoints: 0,
-            attributePointsIncrement: 0.5,
+            attributePointsIncrement: 0.7,
             maxRadius: 20,
-            maxSpeed: 18,
+            maxSpeed: 10,
             stupidPercent: 0.03
         }
         //speedy
@@ -239,57 +239,19 @@
             rotationSpeed: 0.3,
             attributePoints: 0,
             attributePointsIncrement: 0.1,
-            maxRadius: 15,
-            maxSpeed: 40,
+            maxRadius: 14,
+            maxSpeed: 30,
             stupidPercent: 0.05
         }
 
-        //limits
-        app.towerPoints = 30;
-        app.shooterPoints = 30;
 
-        /*
-        var tower = new Tower(app.drawArea);
-        tower.x = app.canvas.width / 2;
-        tower.y = app.canvas.height / 2;
-        tower.r = 10;
-        //shooter
-        tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
-        tower.shooter.x = tower.x;
-        tower.shooter.y = tower.y;
-        tower.shooter.r = 10;
-        tower.shooter.bulletSpeed = 10;
-        tower.shooter.bulletSize = 1;
-        tower.shooter.bulletPoints = 1;
-        tower.shooter.shootDelayMs = 1000;
-        tower.shooter.rotationSpeed = 0.05;
-        tower.shooter.leveupIncrement = 0.6;
-        app.towers.push(tower);
-        */
-        //tower    
-        /*
-        var tower = new Tower(app.drawArea);
-        tower.x = app.canvas.width / 2 + 150;
-        tower.y = start1.y;
-        tower.r = 20;
-        //shooter
-        tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
-        tower.shooter.x = tower.x;
-        tower.shooter.y = start1.y;
-        tower.shooter.r = 20;
-        tower.shooter.bulletSpeed = 10;
-        tower.shooter.bulletSize = 1;
-        tower.shooter.bulletPoints = 1;
-        tower.shooter.shootDelayMs = 1000;
-        tower.shooter.rotationSpeed = 0.05;
-        tower.shooter.leveupIncrement = 0.6;
-        app.towers.push(tower);
-        */
+
+      
         
         //T
         var tower;
-        var tx = 300;
-        var ty = 300;
+        var tx = 700;
+        var ty = 650;
         var tprev = null;
         for (var i = 0; i < 10; i++) {
             tower = new Tower(app.drawArea);
@@ -401,47 +363,21 @@
             tower.x = tx + 600 + Math.sin(i / 2 + 3) * 100;
             app.towers.push(tower);
             tprev = tower;
-        /*
-            tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
-            tower.shooter.x = tower.x;
-            tower.shooter.y = tower.y;
-            tower.shooter.r = tower.r;
-            tower.shooter.bulletSize = 2;
-            tower.shooter.bulletSpeed = tower.r/10;
-            tower.shooter.bulletPoints = 1;
-            tower.shooter.shootDelayMs = 5000;
-            tower.shooter.rotationSpeed = 0.01;
-            tower.shooter.distance = 500;
-            tower.shooter.leveupIncrement = 0.1;
-            */
         }
-        for (var i = 0; i < 100; i++) {
+        for (var i = 0; i < 10; i++) {
             tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
-            tower.r = 20 + Math.cos(i) * 10;
-            tower.y = Math.cos(i) * (100 - i) ;
-            tower.x = i * 10;
+            tower.r = 20 + Math.cos(i) * 30;
+            tower.y = 50 + Math.cos(i) * (50 - i) ;
+            tower.x = i * 50;
             tower.transparent = true;
             app.towers.push(tower);
-            /*
-            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
-            tower.r = 15 + Math.cos(i) * 5;
-            tower.y = app.drawArea.h;
-            tower.x = i * 15;
-            app.towers.push(tower);
-            */
+
             tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
             tower.r = 20 + Math.cos(i) * 10;
-            tower.x = Math.cos(i) * (100 - i);
+            tower.x = Math.cos(i) * (50 - i);
             tower.y = i * 5 + Math.random() * 10;
             tower.transparent = true;
             app.towers.push(tower);
-            /*
-            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
-            tower.r = 10 + Math.cos(i) * 5;
-            tower.x = app.drawArea.w;
-            tower.y = i * 15;
-            app.towers.push(tower);
-            */
         }
         for (var i = 0; i < 20; i++) {
             tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
@@ -457,6 +393,20 @@
             tower.y = 200 + i * 15 + 10 * Math.cos(i);
             tower.transparent = true;
             app.towers.push(tower);
+        }
+
+        for (var i = 0; i < 37; i++) {
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(i * 40, app.drawArea.h - 21, 25);
+
+            sprite = new AppSprite(app.map);
+            sprite.createRoad(app.drawArea.w - 21, i * 40, 25);
+
+            sprite = new AppSprite(app.map);
+            sprite.createRoad(21, i * 40, 25);
+
+            sprite = new AppSprite(app.map);
+            sprite.createRoad(i * 40, 21, 25);
         }
     }
 });

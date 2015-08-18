@@ -61,6 +61,7 @@
         this.levelLoader = this.levels.loaders[this.levelNumber];
 
         this.backgroundContainer = new PIXI.Container(); //z = 0
+        this.roadContainer = new PIXI.Container(); //z = 0.5
         this.soldiersContainer = new PIXI.Container(); //z = 1
         this.treesContainer = new PIXI.Container(); // z = 2
         this.infoContainer = new PIXI.Container(); // z = 2
@@ -94,10 +95,11 @@
             }
         }
 
-        this.levelLoader(this);
-
         this.map = new Map(this);
         this.info = new Info(this.drawArea, this.starts);
+
+        this.levelLoader(this);
+
 
         this.pixiStage = new PIXI.Container();
         this.pixiRenderer = new PIXI.autoDetectRenderer(this.canvas.width, this.canvas.height, { antialias: true, backgroundColor: 0x648975 });
@@ -114,12 +116,18 @@
             this.backgroundSprite.position.x = this.backgroundPositionX;
             this.backgroundSprite.position.y = this.backgroundPositionY;
             //events
+            /*
             this.backgroundSprite.interactive = true;
             this.backgroundSprite.on('mousedown', $.proxy(this.click, this));
             this.backgroundSprite.on('touchstart', $.proxy(this.click, this));
-
+            */
             this.backgroundContainer.addChild(this.backgroundSprite);
         }
+        this.backgroundContainer.interactive = true;
+        this.backgroundContainer.on('mousedown', $.proxy(this.click, this));
+        this.backgroundContainer.on('touchstart', $.proxy(this.click, this));
+
+        this.pixiStage.addChild(this.roadContainer);
         this.pixiStage.addChild(this.soldiersContainer);
         this.pixiStage.addChild(this.treesContainer);
         this.pixiStage.addChild(this.infoContainer);
@@ -193,6 +201,14 @@
 
     registerSoldier: function (regObject) {
         this.register(regObject, this.soldiersContainer);
+    },
+
+    registerGroundObject: function (regObject) {
+        this.register(regObject, this.backgroundContainer);
+    },
+
+    registerRoadObject: function (regObject) {
+        this.register(regObject, this.roadContainer);
     },
 
     addEventListeners: function () {

@@ -583,10 +583,16 @@
         this.lastBulletInfo = bullet;
         this.health -= points;
         if (this.health <= 0) {
+            this.crater();
             this.explosion();
             this.die();
             dieCallback.call(null, this);
         }
+    },
+
+    crater: function () {
+        var sprite = new AppSprite(this.getMap.call());
+        sprite.createCrater(this);
     },
 
     isStupid: function () {

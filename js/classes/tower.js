@@ -12,7 +12,7 @@
         this.distance = 10;
 
         this.r = 10;
-        this.rotation = Math.random() * 3.14159;
+        this.rotation = Math.random() * Math.PI * 2;
 
         this.interval = undefined;
         this.intervalTime = 5000;
@@ -42,7 +42,7 @@
             this.scale = 1.5;
         }
         if (this.isRandomTree) {
-            this.texture = this.texturesForTree[Math.round(Math.random() * this.texturesForTree.length)];
+            this.texture = this.texturesForTree[Math.round(Math.random() * (this.texturesForTree.length - 1))];
             this.scale = 1.5;
         }
         this.setPositionCenter();
