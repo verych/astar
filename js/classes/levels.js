@@ -194,7 +194,7 @@
         start1.init();
         start1.place(10, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
-        start1.limit = 1000;
+        start1.limit = 500;
         start1.limitPerMap = 1;
         start1.sprayY = 500;
         start1.sprayX = 1;
@@ -207,7 +207,7 @@
         start2.init();
         start2.place(app.drawArea.w / 2, 10);
         start2.finish.place(app.drawArea.w / 2, app.drawArea.h - 30);
-        start2.limit = 1000;
+        start2.limit = 500;
         start2.limitPerMap = 1;
         start2.sprayY = 1;
         start2.sprayX = 500;
@@ -225,7 +225,7 @@
             radius: 10,
             rotationSpeed: 0.05,
             attributePoints: 0,
-            attributePointsIncrement: 0.7,
+            attributePointsIncrement: 1,
             maxRadius: 20,
             maxSpeed: 10,
             stupidPercent: 0.03
