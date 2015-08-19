@@ -159,7 +159,9 @@
         this.fpsInterval = setInterval($.proxy(this.updateFps, this), this.fpsIntervalTime);
 
         this.showDebug();
-        this.run();
+
+        setTimeout($.proxy(this.run, this), 60000);
+        //this.run();
     },
 
     loadAssets: function () {

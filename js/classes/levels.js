@@ -212,7 +212,7 @@
         start2.sprayY = 1;
         start2.sprayX = 500;
         start2.intervalTime = 1000;
-        start2.limitPerMapIncrements = [10, 20, 30, 50, 100, 200, 300, 400, 500];
+        start2.limitPerMapIncrements = [10, 20, 30, 40, 50, 100, 200, 300, 400, 500];
 
         app.starts.push(start2);
 
@@ -223,16 +223,16 @@
             speed: 1,
             slow: 4,
             radius: 10,
-            rotationSpeed: 0.05,
+            rotationSpeed: 0.1,
             attributePoints: 0,
-            attributePointsIncrement: 1,
+            attributePointsIncrement: 2,
             maxRadius: 20,
             maxSpeed: 10,
             stupidPercent: 0.03
         }
         //speedy
         start2.genome = {
-            health: 1,
+            health: 2,
             speed: 2,
             slow: 2,
             radius: 8,
