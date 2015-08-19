@@ -199,7 +199,7 @@
         start1.sprayY = 500;
         start1.sprayX = 1;
         start1.intervalTime = 300;
-        start1.limitPerMapIncrements = [2, 5, 10, 20, 30, 50, 100, 200, 300, 400, 500];
+        start1.limitPerMapIncrements = [2, 5, 10, 20, 30, 50, 100, 200, 300, 400, 500, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810];
 
         app.starts.push(start1);
 
@@ -225,9 +225,9 @@
             radius: 10,
             rotationSpeed: 0.1,
             attributePoints: 0,
-            attributePointsIncrement: 2,
+            attributePointsIncrement: 1.8,
             maxRadius: 20,
-            maxSpeed: 10,
+            maxSpeed: 7,
             stupidPercent: 0.03
         }
         //speedy
@@ -243,9 +243,6 @@
             maxSpeed: 30,
             stupidPercent: 0.05
         }
-
-
-
       
         
         //T
