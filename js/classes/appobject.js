@@ -171,7 +171,7 @@
             log('no sprite');
         }
 
-        log('object moved to: ' + this.x + ':' + this.y);
+        //log('object moved to: ' + this.x + ':' + this.y);
     },
 
     prePlace: function (draw, x, y) {

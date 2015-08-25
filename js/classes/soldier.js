@@ -25,7 +25,8 @@
             speed: 5,
             slow: 1,
             radius: 16,
-            stupidPercent: 0.1
+            stupidPercent: 0.1,
+            thresholdPassability: 10
         };
         this.attributePoints = 10;
         this.initAttributes();
@@ -82,25 +83,6 @@
     getDebugInfo: function () {
         var oldDebug = AppObject.fn.getDebugInfo.call(this)
         var debug = '';
-        /*
-            'Soldier<br />';
-        debug += 'name: ' + this.name + '<br />';
-        debug += 'enabled: ' + this.enabled + '<br />';
-        debug += 'speed: ' + this.genome.speed + '<br />';
-        debug += 'slow: ' + this.genome.slow + '<br />';
-        debug += 'health: ' + this.genome.health + '<br />';
-        debug += 'radius: ' + this.genome.radius + '<br />';
-        debug += 'r: ' + this.genome.r + '<br />';
-        debug += 'isStoped: ' + this.isStoped + '<br />';
-        debug += 'stopDate: ' + this.stopDate + '<br />';
-        debug += 'isFallBack: ' + this.isFallBack + '<br />';
-        debug += 'isFallBackProgress: ' + this.isFallBackProgress + '<br />';
-        debug += 'rePath: ' + this.rePath + '<br />';
-        debug += 'path: ' + this.path.length + '<br />';
-        debug += 'vectorX: ' + this.vectorX + '<br />';
-        debug += 'vectorY: ' + this.vectorY + '<br />';
-        debug += 'oldNodes: ' + this.oldNodes + '<br />';
-        */
         //queue
         var queueDebug = 'queue: <br />';
         for (var i = 0; i < this.queue.length; i++) {
@@ -133,24 +115,9 @@
         this.slow = this.genome.slow;
 
         var map = this.getMap.call();
-        if (this.speed > map.mapCellSize)
-        {
-            //this.speed = map.mapCellSize;
-        }
-        //this.stopTime = this.health * 1000;
-        /*
-        this.r = 20;
-        this.speed = 10;
-        */
-        //this.slow = 1;
-       
-        //this.stopTime = 1000;
-        
     },
 
     run: function () {
-        //log("Run for " + this.name + '"');
-        //log(this.rePath);
         this.updateNodeCurrent();
         clearInterval(this.interval);
         this.interval = setInterval($.proxy(this.doOne, this), this.intervalTime);
@@ -169,14 +136,8 @@
         if (this.rePath) {
             this.updateNodes();
             this.updateAStar();
-            /*if (this.isFallBackProgress)
-            {
-                this.isFallBackProgress = false;
-            }*/
         }
-        //debugger;
-        //log("fallback: " + this.isFallBackProgress + " " + this.name);
-        //calc new position to the next path node or finish
+
         if (this.path && this.path.length > 0) {
             if (this.path.length == 1 && !this.isFallBackProgress) {
                 var map = this.getMap.call();
@@ -293,7 +254,7 @@
         for (var x = 0; x < map.core.drawArea.w; x += this.gridCellSize * 2) {
             var nodeRow = [];
             for (var y = 0; y < map.core.drawArea.h; y += this.gridCellSize * 2) {
-                var n = new MapNode(i, j, x + this.gridCellSize, y + this.gridCellSize, this.gridCellSize, MapNodeTypes.OPEN, 0);
+                var n = new MapNode(i, j, x + this.gridCellSize, y + this.gridCellSize, this.gridCellSize, MapNodeTypes.OPEN, 0, this.genome.thresholdPassability);
                 nodeRow.push(n);
                 j++;
             }
@@ -305,7 +266,6 @@
     },
 
     updateNodes: function () {
-        //debugger;
         var map = this.getMap.call();
         this.mapNodes = this.initNodes();
         var towers = map.towers;
@@ -337,14 +297,31 @@
                 this.mapNodes[w.x][w.y].type = MapNodeTypes.WALL;
             }
         }
-    },
 
+        //dies
+        if (map.busyMap) {
+            for (var ix = 0; ix < map.busyMap.length; ix++) {
+                for (var iy = 0; iy < map.busyMap[ix].length; iy++) {
+                    var cell = map.busyMap[ix][iy];
+                    if (cell.die > 0) {
+                        log('marking dies');
+                        var ix1 = Math.floor(cell.cx / (this.gridCellSize * 2));
+                        var iy1 = Math.floor(cell.cy / (this.gridCellSize * 2));
+                        //console.log(cell, ix1, iy1, this.mapNodes.length);
+                        if (this.mapNodes.length < ix1 || this.mapNodes[ix1].length < iy1) {
+                            log('busyMap: out of range');
+                            debugger;
+                        }
+                        this.mapNodes[ix1][iy1].passability = map.busyMap[ix][iy].die;
+                        this.mapNodes[ix1][iy1].thresholdPassability = this.genome.thresholdPassability ? this.genome.thresholdPassability : 1;
+                    }
+                }
+            }
+        }
+    },
+    /*
     draw: function (context) {
         context.save();
-        /*
-        context.fillStyle = "rgba(255,0,0," + this.a + ")";
-        context.fillRect(Math.round(this.x - this.r + this.drawArea.ox), Math.round(this.y - this.r + this.drawArea.oy), Math.round(this.r * 2), Math.round(this.r * 2));
-        */
 
         context.beginPath();
 
@@ -381,21 +358,10 @@
                 for (var j = 0; j < this.mapNodes[i].length; j++) {
                     var n = this.mapNodes[i][j];
                     if (n.type == MapNodeTypes.OPEN) {
-                        /*
-                        context.fillStyle = "rgba(0,0,150,0.1)";
-                        context.fillRect(Math.round(n.x - n.r + 1 + this.drawArea.ox), Math.round(n.y - n.r + 1 + this.drawArea.oy), Math.round(n.r * 2) - 2, Math.round(n.r * 2) - 2);
-                        */
                     }
 
                     context.fillStyle = "rgba(0,0,0,1)";
                     context.font = 'italic 8px Calibri';
-                    /*
-                    var aNode = this.graph.nodes[i][j];
-                    context.fillText(Math.round(aNode.f, 2), n.x + this.drawArea.ox, n.y + this.drawArea.oy);
-                    context.fillText(Math.round(aNode.g, 2), n.x + this.drawArea.ox, n.y + this.drawArea.oy + 8);
-                    context.fillText(Math.round(aNode.h, 2), n.x + this.drawArea.ox, n.y + this.drawArea.oy + 16);
-                    */
-
                 }
             }
 
@@ -418,9 +384,6 @@
                     //context.fillRect(Math.round(n.x - n.r + 1 + this.drawArea.ox), Math.round(n.y - n.r + 1 + this.drawArea.oy), Math.round(n.r * 2) - 2, Math.round(n.r * 2) - 2);
                 }
             }
-
-
-
         }
 
         //var this.debug.path = 0;
@@ -472,7 +435,7 @@
 
         context.restore();
     },
-
+*/
     calcNewSimplePosition: function (x1, y1, x2, y2) {
         var map = this.getMap.call();
         //new position calculation

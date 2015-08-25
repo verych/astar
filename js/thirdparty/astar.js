@@ -1,4 +1,4 @@
-// javascript-astar
+// Based on javascript-astar
 // http://github.com/bgrins/javascript-astar
 // Freely distributable under the MIT License.
 // Implements the astar search algorithm in javascript using a binary heap.
@@ -11,7 +11,7 @@ var astar = {
                 node.f = 0;
                 node.g = 0;
                 node.h = 0;
-                node.cost = node.type;
+                node.cost = node.passability ? node.passability * node.thresholdPassability : 1;
                 node.visited = false;
                 node.closed = false;
                 node.parent = null;

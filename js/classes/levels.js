@@ -15,6 +15,8 @@
 
     getLevelTest1: function (app) {
         //screen size
+        app.levelStartDelay = 1000;
+
         app.canvas.width = 1500;
         app.canvas.height = 900;
         app.drawArea.w = 1500;
@@ -52,7 +54,7 @@
         start2.place(app.drawArea.w / 2, 10);
         start2.finish.place(app.drawArea.w / 2, app.drawArea.h - 30);
         start2.limit = 500;
-        start2.limitPerMap = 1;
+        start2.limitPerMap = 10;
         start2.sprayY = 1;
         start2.sprayX = 500;
         start2.intervalTime = 10;
@@ -72,34 +74,39 @@
             attributePointsIncrement: 1.8,
             maxRadius: 20,
             maxSpeed: 9,
-            stupidPercent: 0.03
+            stupidPercent: 0.03,
+            thresholdPassability: 20
         }
         //speedy
         start2.genome = {
-            health: 2,
-            speed: 2,
+            health: 50,
+            speed: 5,
             slow: 2,
-            radius: 8,
-            rotationSpeed: 0.3,
+            radius: 16,
+            rotationSpeed: 0.5,
             attributePoints: 0,
-            attributePointsIncrement: 0.1,
+            attributePointsIncrement: 0,
             maxRadius: 14,
             maxSpeed: 30,
-            stupidPercent: 0.05
+            stupidPercent: 0,
+            thresholdPassability: 20
         }
 
          for (var i = 0; i < 11; i++) {
-             tower = new Tower(app.drawArea);
+             tower = new Tower(app.drawArea, $.proxy(app.getMap, app), {hasShooter: true});
              tower.r = 10;
              tower.y = start1.y;
-             tower.x = 351 + tower.r * i * 2;
+             tower.x = 351 + tower.r * i * 2 * 4;
              app.towers.push(tower);
 
              tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
              tower.shooter.x = tower.x;
              tower.shooter.y = tower.y;
-             tower.shooter.shootDelayMs = 1;
+             tower.shooter.shootDelayMs = 1000;
              tower.shooter.leveupIncrement = 1;
+             tower.shooter.bulletPoints = 50;
+             tower.shooter.bulletSpeed = 15;
+             
          }
     },
 
@@ -189,6 +196,8 @@
     },
 
     getLevelTest3: function (app) {
+        app.levelStartDelay = 30000;
+
         //screen size
         app.canvas.width = 1500;
         app.canvas.height = 900;
@@ -247,7 +256,8 @@
             attributePointsIncrement: 1.8,
             maxRadius: 20,
             maxSpeed: 9,
-            stupidPercent: 0.03
+            stupidPercent: 0.03,
+            thresholdPassability: 10
         }
         //speedy
         start2.genome = {
@@ -260,7 +270,8 @@
             attributePointsIncrement: 0.1,
             maxRadius: 14,
             maxSpeed: 30,
-            stupidPercent: 0.05
+            stupidPercent: 0.05,
+            thresholdPassability: 20
         }
       
         

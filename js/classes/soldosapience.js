@@ -34,18 +34,19 @@
                 attributePoints: 4,
                 maxRadius: 10,
                 maxSpeed: 2,
-                stupidPercent: 0.1
+                stupidPercent: 0.1,
+                thresholdPassability: 10
             }
         }
         //test
         //this.genome.radius = Math.round(16 + 8 * Math.random());
         //this.genome.speed = this.genome.radius / 4;
-
+        this.r = this.genome.radius;
         this.type = 'soldiersapience';
 
         this.attributePoints = 4;
         this.initAttributes();
-        this.gridCellSize = this.r;
+        this.gridCellSize = this.genome.radius;
         this.debugGraphics = new PIXI.Graphics();
         this.debugGraphicsShowed = false;
         this.prevHealth = this.health;
@@ -76,9 +77,9 @@
         var debug = 'SoldierSapience<br />';
         debug += 'name: ' + this.name + '<br />';
         debug += 'enabled: ' + this.enabled + '<br />';
-        debug += 'speed: ' + this.genome.speed + '<br />';
-        debug += 'slow: ' + this.genome.slow + '<br />';
-        debug += 'health: ' + this.genome.health + '<br />';
+        debug += 'speed: ' + this.speed + '<br />';
+        debug += 'slow: ' + this.slow + '<br />';
+        debug += 'health: ' + this.health + '<br />';
         debug += 'radius: ' + this.genome.radius + '<br />';
         debug += 'r: ' + this.genome.r + '<br />';
         debug += 'isStoped: ' + this.isStoped + '<br />';
@@ -573,7 +574,6 @@
     },
 
     die: function () {
-//        debugger;
         var map = this.getMap.call();
         if (this.finished) {
             map.core.totalSkipped++;
@@ -581,6 +581,7 @@
         clearInterval(this.interval);
         this.enabled = false;
         map.updateBusyPositions(this);
+        map.updateDiePositions(this);
         this.complete.call(undefined, this);
     },
 

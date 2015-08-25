@@ -59,6 +59,7 @@
         this.levels = new Levels();
         this.levelNumber = 2;
         this.levelLoader = this.levels.loaders[this.levelNumber];
+        this.levelStartDelay = 5000;
 
         this.backgroundContainer = new PIXI.Container(); //z = 0
         this.roadContainer = new PIXI.Container(); //z = 0.5
@@ -160,7 +161,7 @@
 
         this.showDebug();
 
-        setTimeout($.proxy(this.run, this), 30000);
+        setTimeout($.proxy(this.run, this), this.levelStartDelay);
         //this.run();
     },
 
@@ -321,7 +322,15 @@
                     this.drawMapGraphics.beginFill(0x000000, 0.3);
                     var subX = ix * this.map.mapCellSize;
                     var subY = iy * this.map.mapCellSize;
-                    this.drawMapGraphics.drawRoundedRect(Math.round(subX + this.drawArea.ox ), Math.round(subY + this.drawArea.oy ), this.map.mapCellSize - 1, this.map.mapCellSize - 1, 3);
+                    this.drawMapGraphics.drawRoundedRect(Math.round(subX + this.drawArea.ox), Math.round(subY + this.drawArea.oy), this.map.mapCellSize - 1, this.map.mapCellSize - 1, 3);
+                    this.drawMapGraphics.endFill();
+                }
+
+                if (this.map.busyMap[ix][iy].die) {
+                    this.drawMapGraphics.beginFill(0xffff00, 0.3);
+                    var subX = ix * this.map.mapCellSize;
+                    var subY = iy * this.map.mapCellSize;
+                    this.drawMapGraphics.drawRoundedRect(Math.round(subX + this.drawArea.ox), Math.round(subY + this.drawArea.oy), this.map.mapCellSize - 1, this.map.mapCellSize - 1, 3);
                     this.drawMapGraphics.endFill();
                 }
             }

@@ -33,7 +33,8 @@
                     j: this.coordToIndex(j),
                     size: this.mapCellSize,
                     count: 0,
-                    objects: {}
+                    objects: {},
+                    die: 0
                 };
                 line.push(item);
             }
@@ -110,6 +111,13 @@
         }
     },
 
+    updateDiePositions: function(soldier){
+        var coordI = this.coordToIndex(soldier.x);
+        var coordj = this.coordToIndex(soldier.y);
+        var cell = this.busyMap[coordI][coordj];
+        cell.die++;
+    },
+
     coordToIndex: function (coord)
     {
         return Math.floor(coord / this.mapCellSize);
@@ -152,7 +160,7 @@
 });
 
 var MapNode = createClass({
-    construct: function (i, j, x, y, r, type, passability) {
+    construct: function (i, j, x, y, r, type, passability, thresholdPassability) {
         //game area
         this.x = x;
         this.y = y;
@@ -161,6 +169,7 @@ var MapNode = createClass({
         this.i = i;
         this.j = j;
         this.passability = passability;
+        this.thresholdPassability = thresholdPassability;
     }
 });
 

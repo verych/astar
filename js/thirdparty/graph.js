@@ -32,9 +32,8 @@ function GraphFromNodes(warNodes) {
 
     for (var x = 0; x < warNodes.length; x++) {
         nodes[x] = [];
-
         for (var y = 0, row = warNodes[x]; y < row.length; y++) {
-            nodes[x][y] = new GraphNode(x, y, row[y].type);
+            nodes[x][y] = new GraphNode(x, y, row[y].type, row[y].passability, row[y].thresholdPassability);
         }
     }
 
@@ -58,7 +57,7 @@ Graph.prototype.toString = function() {
     return graphString;
 };
 
-function GraphNode(x,y,type) {
+function GraphNode(x, y, type, passability, thresholdPassability) {
     this.data = { };
     this.x = x;
     this.y = y;
@@ -67,6 +66,8 @@ function GraphNode(x,y,type) {
         y: y
     };
     this.type = type;
+    this.passability = passability;
+    this.thresholdPassability = thresholdPassability;
 }
 
 GraphNode.prototype.toString = function() {
