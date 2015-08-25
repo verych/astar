@@ -94,7 +94,7 @@
                 return;
             }
         }
-
+        //debugger;
         this.map = new Map(this);
         this.info = new Info(this.drawArea, this.starts);
 
@@ -151,7 +151,7 @@
         this.debugContainer.addChild(this.drawMapGraphics);
 
         //events
-        this.addEventListeners(); 
+        this.addEventListeners();
 
         //instead of draw interval
         requestAnimationFrame($.proxy(this.draw, this));
@@ -160,8 +160,56 @@
 
         this.showDebug();
 
-        setTimeout($.proxy(this.run, this), 60000);
+        setTimeout($.proxy(this.run, this), 30000);
         //this.run();
+    },
+
+    testInit: function () {
+        console.log("Memory testing.");
+        $('.bRun').click($.proxy(this.testRun, this));
+        $('.bClear').click($.proxy(this.testClear, this));
+    },
+
+    testRun: function () {
+        var count = 1000;
+        console.log("Adding " + count + " test items");
+
+        this.map = new Map(this);
+        this.info = new Info(this.drawArea, this.starts);
+
+        var start1 = new Start(this);
+        start1.init();
+        start1.place(10, this.drawArea.h / 2);
+        start1.finish.place(this.drawArea.w - 30, this.drawArea.h / 2);
+        start1.limit = 500;
+        start1.limitPerMap = 15;
+        start1.sprayY = 500;
+        start1.sprayX = 1;
+        start1.intervalTime = 10;
+        start1.limitPerMapIncrements = [];
+
+        if (!this.testBigHeap)
+        {
+            this.testBigHeap = {
+                items: []
+            };
+        }
+
+        //var prev = "a";
+        for (var i = 0; i < count; i++) {
+            //prev = prev + "a";
+            var item = new SoldierSapience(start1, 'Soldier #' + i + ' s:' + start1.uid, start1.getMap, $.proxy(start1.removeDisabledSoldiers, this));
+            this.testBigHeap.items.push(item);
+        }
+        console.log("Adding is done, items.length = " + this.testBigHeap.items.length);
+    },
+
+    testClear: function () {
+        this.testBigHeap = null;
+        this.testBigHeap = {
+            items: []
+        };
+        console.log("Clearing is done");
     },
 
     loadAssets: function () {

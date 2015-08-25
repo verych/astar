@@ -39,8 +39,6 @@
         this.bulletSizeMax = 10;
         this.bulletPoints = 1;
 
-        this.bullets = [];
-
         this.loop = true;
         this.animationSpeed = 0.1;
 
@@ -161,8 +159,7 @@
         bullet.r = this.bulletSize;
         bullet.shootPoints = this.bulletPoints;
         bullet.run();
-        this.bullets.push(bullet);
-
+  
         var map = this.getMap.call();
         map.register(bullet);
     },

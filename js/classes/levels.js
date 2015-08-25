@@ -16,72 +16,91 @@
     getLevelTest1: function (app) {
         //screen size
         app.canvas.width = 1500;
-        app.canvas.height = 1000;
+        app.canvas.height = 900;
         app.drawArea.w = 1500;
-        app.drawArea.h = 1000;
-        app.drawArea.ox = 5;
+        app.drawArea.h = 900;
+        app.drawArea.ox = 0;
         app.drawArea.oy = 0;
 
         //background
         app.backgroundImage = 'bg7.jpg';
-        app.backgroundScaleX = .9;
-        app.backgroundScaleY = .9;
+        app.backgroundScaleX = 1.1;
+        app.backgroundScaleY = 1.1;
         app.backgroundPositionX = -10;
         app.backgroundPositionY = -20;
 
         //limits
-        app.towerPoints = 0;
-        app.shooterPoints = 0;
+        app.towerPoints = 100;
+        app.shooterPoints = 30;
 
         //starts
         var start1 = new Start(app);
         start1.init();
         start1.place(10, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
-        start1.limit = 100;
+        start1.limit = 500;
         start1.limitPerMap = 1;
-        start1.sprayY = 1;
+        start1.sprayY = 500;
         start1.sprayX = 1;
         start1.intervalTime = 10;
+        start1.limitPerMapIncrements = [];
 
-        app.starts.push(start1);
+        //app.starts.push(start1);
+
+        var start2 = new Start(app);
+        start2.init();
+        start2.place(app.drawArea.w / 2, 10);
+        start2.finish.place(app.drawArea.w / 2, app.drawArea.h - 30);
+        start2.limit = 500;
+        start2.limitPerMap = 1;
+        start2.sprayY = 1;
+        start2.sprayX = 500;
+        start2.intervalTime = 10;
+        start2.limitPerMapIncrements = [];
+
+        app.starts.push(start2);
 
         //soldiers
+        //slow aand fat
         start1.genome = {
-            health: 100,
-            speed: 3,
-            slow: 5,
+            health: 30,
+            speed: 1,
+            slow: 4,
             radius: 10,
+            rotationSpeed: 0.1,
+            attributePoints: 0,
+            attributePointsIncrement: 1.8,
+            maxRadius: 20,
+            maxSpeed: 9,
+            stupidPercent: 0.03
+        }
+        //speedy
+        start2.genome = {
+            health: 2,
+            speed: 2,
+            slow: 2,
+            radius: 8,
             rotationSpeed: 0.3,
             attributePoints: 0,
-            attributePointsIncrement: 0.00,
-            maxRadius: 15,
-            maxSpeed: 70
+            attributePointsIncrement: 0.1,
+            maxRadius: 14,
+            maxSpeed: 30,
+            stupidPercent: 0.05
         }
-        
-        var tower;
-        var sign = 1;
-        for (var i = 0; i < 100; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 10; //20 + Math.sin(i) * 10;
-            tower.y = start1.y;
-            tower.x = 400 + i * 10;
-            tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
-            tower.shooter.x = tower.x;
-            tower.shooter.y = tower.y;
-            tower.shooter.r = 15; //5+ tower.r;
-            tower.shooter.bulletSize = 2;
-            tower.shooter.bulletSpeed = 10;
-            tower.shooter.bulletPoints = 1;
-            tower.shooter.shootDelayMs = 5000;
-            tower.shooter.rotationSpeed = 0.05;
-            tower.shooter.distance = 300;
-            tower.shooter.leveupIncrement = 0;
-            app.towers.push(tower);
-            sign *= -1;
-        }
-        
 
+         for (var i = 0; i < 11; i++) {
+             tower = new Tower(app.drawArea);
+             tower.r = 10;
+             tower.y = start1.y;
+             tower.x = 351 + tower.r * i * 2;
+             app.towers.push(tower);
+
+             tower.shooter = new Shooter(app.drawArea, $.proxy(app.getMap, app));
+             tower.shooter.x = tower.x;
+             tower.shooter.y = tower.y;
+             tower.shooter.shootDelayMs = 1;
+             tower.shooter.leveupIncrement = 1;
+         }
     },
 
     getLevelTest2: function (app) {
@@ -199,7 +218,7 @@
         start1.sprayY = 500;
         start1.sprayX = 1;
         start1.intervalTime = 300;
-        start1.limitPerMapIncrements = [2, 5, 10, 20, 30, 50, 100, 200, 300, 400, 500, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810];
+        start1.limitPerMapIncrements = [2, 5, 10, 20, 30, 50, 100, 200, 300, 400, 450, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460];
 
         app.starts.push(start1);
 
@@ -227,7 +246,7 @@
             attributePoints: 0,
             attributePointsIncrement: 1.8,
             maxRadius: 20,
-            maxSpeed: 7,
+            maxSpeed: 9,
             stupidPercent: 0.03
         }
         //speedy

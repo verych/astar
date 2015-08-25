@@ -81,7 +81,9 @@
 
     getDebugInfo: function () {
         var oldDebug = AppObject.fn.getDebugInfo.call(this)
-        var debug = 'Soldier<br />';
+        var debug = '';
+        /*
+            'Soldier<br />';
         debug += 'name: ' + this.name + '<br />';
         debug += 'enabled: ' + this.enabled + '<br />';
         debug += 'speed: ' + this.genome.speed + '<br />';
@@ -98,7 +100,7 @@
         debug += 'vectorX: ' + this.vectorX + '<br />';
         debug += 'vectorY: ' + this.vectorY + '<br />';
         debug += 'oldNodes: ' + this.oldNodes + '<br />';
-
+        */
         //queue
         var queueDebug = 'queue: <br />';
         for (var i = 0; i < this.queue.length; i++) {
@@ -288,9 +290,9 @@
         var nodes = [];
         var i = 0, j = 0;
 
-        for (var x = 0; x < map.w; x += this.gridCellSize * 2) {
+        for (var x = 0; x < map.core.drawArea.w; x += this.gridCellSize * 2) {
             var nodeRow = [];
-            for (var y = 0; y < map.h; y += this.gridCellSize * 2) {
+            for (var y = 0; y < map.core.drawArea.h; y += this.gridCellSize * 2) {
                 var n = new MapNode(i, j, x + this.gridCellSize, y + this.gridCellSize, this.gridCellSize, MapNodeTypes.OPEN, 0);
                 nodeRow.push(n);
                 j++;

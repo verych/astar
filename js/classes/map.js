@@ -2,8 +2,6 @@
     construct: function (core) {
         //game area
         this.drawArea = core.drawArea;
-        this.w = core.drawArea.w;
-        this.h = core.drawArea.h;
         //busy map
         this.mapCellSize = 16;
         this.busyMap = []; 
@@ -11,20 +9,20 @@
         //towers
         this.towers = core.towers;
 
-        //init
-        this.initBusyMap();
-
         this.starts = core.starts;
         this.register = $.proxy(core.register, core);
         this.core = core;
+        //init
+        this.initBusyMap();
     },
 
     initBusyMap: function () {
         this.busyMap = [];
-        for(var i = 0; i < this.w; i+=this.mapCellSize)
+        //debugger;
+        for (var i = 0; i < this.core.drawArea.w; i += this.mapCellSize)
         {
             var line = [];
-            for (var j = 0; j < this.h; j += this.mapCellSize) {
+            for (var j = 0; j < this.core.drawArea.h; j += this.mapCellSize) {
                 var item = {
                     x: i,
                     y: j,

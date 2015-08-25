@@ -74,7 +74,22 @@
     getDebugInfo: function () {
         var oldDebug = Soldier.fn.getDebugInfo.call(this)
         var debug = 'SoldierSapience<br />';
-        debug += 'stopTimeDuration: ' + this.stopTimeDuration + '<br />';
+        debug += 'name: ' + this.name + '<br />';
+        debug += 'enabled: ' + this.enabled + '<br />';
+        debug += 'speed: ' + this.genome.speed + '<br />';
+        debug += 'slow: ' + this.genome.slow + '<br />';
+        debug += 'health: ' + this.genome.health + '<br />';
+        debug += 'radius: ' + this.genome.radius + '<br />';
+        debug += 'r: ' + this.genome.r + '<br />';
+        debug += 'isStoped: ' + this.isStoped + '<br />';
+        debug += 'stopDate: ' + this.stopDate + '<br />';
+        debug += 'isFallBack: ' + this.isFallBack + '<br />';
+        debug += 'isFallBackProgress: ' + this.isFallBackProgress + '<br />';
+        debug += 'rePath: ' + this.rePath + '<br />';
+        debug += 'path: ' + this.path.length + '<br />';
+        debug += 'vectorX: ' + this.vectorX + '<br />';
+        debug += 'vectorY: ' + this.vectorY + '<br />';
+        debug += 'oldNodes: ' + this.oldNodes + '<br />';
         var finish = this.getNodeFinish();
         if (!!finish) {
             debug += 'finishNodeX: ' + finish.x + '<br />';
