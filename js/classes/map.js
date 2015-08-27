@@ -111,7 +111,7 @@
         }
     },
 
-    updateDiePositions: function(soldier){
+    updateDiePositions: function (soldier) {
         var coordI = this.coordToIndex(soldier.x);
         var coordj = this.coordToIndex(soldier.y);
         var cell = this.busyMap[coordI][coordj];

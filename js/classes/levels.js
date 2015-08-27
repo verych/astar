@@ -224,10 +224,10 @@
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
         start1.limit = 500;
         start1.limitPerMap = 1;
-        start1.sprayY = 500;
+        start1.sprayY = 600;
         start1.sprayX = 1;
-        start1.intervalTime = 300;
-        start1.limitPerMapIncrements = [2, 5, 10, 20, 30, 50, 100, 200, 300, 400, 450, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460];
+        start1.intervalTime = 1000;
+        start1.limitPerMapIncrements = [5, 10, 25, 50, 100, 200, 300, 400, 450, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460];
 
         app.starts.push(start1);
 
@@ -238,7 +238,7 @@
         start2.limit = 500;
         start2.limitPerMap = 1;
         start2.sprayY = 1;
-        start2.sprayX = 500;
+        start2.sprayX = 600;
         start2.intervalTime = 1000;
         start2.limitPerMapIncrements = [10, 20, 30, 40, 50, 100, 200, 300, 400, 500];
 
@@ -249,29 +249,29 @@
         start1.genome = {
             health: 30,
             speed: 1,
-            slow: 4,
-            radius: 10,
-            rotationSpeed: 0.1,
-            attributePoints: 0,
-            attributePointsIncrement: 1.8,
+            slow: 5,
+            radius: 15,
+            rotationSpeed: 0.5,
+            attributePoints: 1,
+            attributePointsIncrement: 0,
             maxRadius: 20,
-            maxSpeed: 9,
+            maxSpeed: 10,
             stupidPercent: 0.03,
-            thresholdPassability: 10
+            thresholdPassability: 5
         }
         //speedy
         start2.genome = {
-            health: 2,
+            health: 1,
             speed: 2,
             slow: 2,
-            radius: 8,
+            radius: 6,
             rotationSpeed: 0.3,
             attributePoints: 0,
-            attributePointsIncrement: 0.1,
-            maxRadius: 14,
+            attributePointsIncrement: 0.05,
+            maxRadius: 12,
             maxSpeed: 30,
             stupidPercent: 0.05,
-            thresholdPassability: 20
+            thresholdPassability: 30
         }
       
         

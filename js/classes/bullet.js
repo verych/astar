@@ -96,6 +96,8 @@
 
     die: function () {
         clearInterval(this.interval);
+        this.target = null;
+        this.shooter = null;
         this.map.register(this);
     }
 });

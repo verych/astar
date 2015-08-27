@@ -14,7 +14,7 @@
 
     pixiGetText: function () {
         // center the sprites anchor point
-        this.text = new PIXI.Text('', { font: "10px Arial", fill: "white" });
+        this.text = new PIXI.Text('', { font: "12px Arial", fill: "white" });
 
         this.text.anchor.x = 0;
         this.text.anchor.y = 0;
@@ -42,6 +42,6 @@
             this.fps = fps;
         }
         //this.text.text = "fps: " + this.fps + "; Soldiers: " + this.getSoldiers() + "; Timers: " + window.activeIntervals + "; cps: " + cps + "SCORE: " + game.totalScore;
-        this.text.text = "Towers: " + game.towerPoints + " | Shooters: " + game.shooterPoints + " | SCORE: " + game.totalScore + " | Skipped: " + game.totalSkipped;
+        this.text.text = "Towers: " + game.towerPoints + " | Shooters: " + game.shooterPoints + " | SCORE: " + game.totalScore + " | Skipped: " + game.totalSkipped + ' [Debug: fps=' + this.fps + ' cps=' + cps + '(' + window.astarCounter + ')]';
     },
 });

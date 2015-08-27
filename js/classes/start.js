@@ -32,6 +32,9 @@
         this.texture = 'start.png';
 
         this.genome = null;
+
+        this.renewLimit = 10;
+        this.renewCounter = 0;
     },
 
     run: function () {
@@ -82,6 +85,19 @@
             var map = this.getMap.call();
             map.core.registerSoldier(soldier);
         }
+        /* buggy */
+        /*
+        this.renewCounter++;
+        if (this.renewCounter > this.renewLimit) {
+            this.renewCounter = 0;
+            var s = this.soldiers;
+            this.soldiers = null;
+            this.soldiers = [];
+            for (soldier in s) {
+                this.soldiers.push(soldier);
+            }
+        }
+        */
         //this.soldiers.count--;
     },
 

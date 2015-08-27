@@ -25,15 +25,15 @@
         //console.log('Created shooter: xyr=' + this.x + '-' + this.y + ': ' + this.r);
 
         this.rotationInterval = undefined;
-        this.rotationIntervalTime = 10;
-        this.rotationSpeed = 0.04;
+        this.rotationIntervalTime = 30;
+        this.rotationSpeed = 0.1;
         this.rotationSpeedMax = 0.5;
 
         this.rotationInitCorrection = Math.PI;
 
         this.lastShootTimeMs = Date.now();
         this.shootDelayMs = 1000;
-        this.bulletSpeed = 3;
+        this.bulletSpeed = 6;
         this.bulletSpeedMax = 20;
         this.bulletSize = 1;
         this.bulletSizeMax = 10;
@@ -45,7 +45,7 @@
         this.score = 0;
         this.leveupIncrement = 0.1;
 
-        this.distance = 150;
+        this.distance = 300;
 
         this.run();
     },

@@ -583,6 +583,9 @@
         map.updateBusyPositions(this);
         map.updateDiePositions(this);
         this.complete.call(undefined, this);
+        this.graph.nodes = null;
+        this.graph = null;
+
     },
 
     explosion: function () {
