@@ -33,7 +33,7 @@
 
         this.lastShootTimeMs = Date.now();
         this.shootDelayMs = 1000;
-        this.bulletSpeed = 6;
+        this.bulletSpeed = 5;
         this.bulletSpeedMax = 20;
         this.bulletSize = 1;
         this.bulletSizeMax = 10;
@@ -45,7 +45,7 @@
         this.score = 0;
         this.leveupIncrement = 0.1;
 
-        this.distance = 300;
+        this.distance = 200;
 
         this.run();
     },

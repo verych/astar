@@ -253,21 +253,21 @@
             radius: 15,
             rotationSpeed: 0.5,
             attributePoints: 1,
-            attributePointsIncrement: 0,
+            attributePointsIncrement: 3,
             maxRadius: 20,
-            maxSpeed: 10,
+            maxSpeed: 20,
             stupidPercent: 0.03,
-            thresholdPassability: 5
+            thresholdPassability: 10
         }
         //speedy
         start2.genome = {
             health: 1,
-            speed: 2,
-            slow: 2,
+            speed: 1,
+            slow: 1,
             radius: 6,
             rotationSpeed: 0.3,
             attributePoints: 0,
-            attributePointsIncrement: 0.05,
+            attributePointsIncrement: 0.5,
             maxRadius: 12,
             maxSpeed: 30,
             stupidPercent: 0.05,
