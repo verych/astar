@@ -35,7 +35,8 @@
                 maxRadius: 10,
                 maxSpeed: 2,
                 stupidPercent: 0.1,
-                thresholdPassability: 10
+                thresholdPassability: 10,
+                passbyPercent: 0.5
             }
         }
         //test
@@ -50,7 +51,7 @@
         this.debugGraphics = new PIXI.Graphics();
         this.debugGraphicsShowed = false;
         this.prevHealth = this.health;
-        
+
         this.loop = true;
         this.animationSpeed = this.speed / 15;
     },
@@ -627,5 +628,5 @@
         var val = Math.random();
         var stupid = this.genome.stupidPercent > val;
         return stupid;
-    }
+    },
 });

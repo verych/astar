@@ -26,7 +26,8 @@
             slow: 1,
             radius: 16,
             stupidPercent: 0.1,
-            thresholdPassability: 10
+            thresholdPassability: 10,
+            passbyPercent: 0.5
         };
         this.attributePoints = 10;
         this.initAttributes();
@@ -248,6 +249,8 @@
     },
 
     initNodes: function () {
+        var passby = this.isPassby();
+        console.log(passby);
         var map = this.getMap.call();
         var nodes = [];
         var i = 0, j = 0;
@@ -257,7 +260,7 @@
             for (var y = 0; y < map.core.drawArea.h; y += this.gridCellSize * 2) {
                 var mi = map.coordToIndex(x + this.gridCellSize);
                 var mj = map.coordToIndex(y + this.gridCellSize);
-                var n = new MapNode(i, j, x + this.gridCellSize, y + this.gridCellSize, this.gridCellSize, MapNodeTypes.OPEN, map.busyMap[mi][mj].die, this.genome.thresholdPassability);
+                var n = new MapNode(i, j, x + this.gridCellSize, y + this.gridCellSize, this.gridCellSize, MapNodeTypes.OPEN, passby?map.busyMap[mi][mj].die:0, this.genome.thresholdPassability);
                 nodeRow.push(n);
                 j++;
             }
@@ -431,5 +434,11 @@
         this.complete.call(undefined, this);
         this.graph.nodes = null;
         this.graph = null;
+    },
+
+    isPassby: function () {
+        var val = Math.random();
+        var passby = this.genome.passbyPercent > val;
+        return passby;
     }
 });

@@ -196,7 +196,7 @@
     },
 
     getLevelTest3: function (app) {
-        app.levelStartDelay = 10000;
+        app.levelStartDelay = 15000;
 
         //screen size
         app.canvas.width = 1500;
@@ -220,44 +220,45 @@
         //starts
         var start1 = new Start(app);
         start1.init();
-        start1.place(10, app.drawArea.h / 5);
+        start1.place(10, 250);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h - 100);
         start1.limit = 500;
         start1.limitPerMap = 1;
         start1.sprayY = 500;
         start1.sprayX = 1;
         start1.intervalTime = 500;
-        start1.limitPerMapIncrements = [10, 50, 100, 200, 300, 400, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490];
+        start1.limitPerMapIncrements = [3, 5, 10, 50, 100, 200, 300, 400, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490];
 
         app.starts.push(start1);
 
         var start2 = new Start(app);
         start2.init();
-        start2.place(app.drawArea.w / 5, 10);
+        start2.place(300, 10);
         start2.finish.place(app.drawArea.w - 100, app.drawArea.h - 30);
         start2.limit = 500;
         start2.limitPerMap = 1;
         start2.sprayY = 1;
         start2.sprayX = 600;
         start2.intervalTime = 1000;
-        start2.limitPerMapIncrements = [10, 20, 30, 40, 50, 51, 52, 53, 100, 200, 300, 400, 500];
+        start2.limitPerMapIncrements = [3, 10, 20, 30, 40, 50, 51, 52, 53, 100, 200, 300, 400, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490];
 
         app.starts.push(start2);
 
         //soldiers
         //slow aand fat
         start1.genome = {
-            health: 30,
+            health: 100,
             speed: 1,
             slow: 5,
             radius: 15,
             rotationSpeed: 0.5,
             attributePoints: 1,
-            attributePointsIncrement: 2,
+            attributePointsIncrement: 3,
             maxRadius: 20,
             maxSpeed: 15,
             stupidPercent: 0.03,
-            thresholdPassability: 1
+            thresholdPassability: 1,
+            passbyPercent: 0.5
         }
         //speedy
         start2.genome = {
@@ -267,11 +268,12 @@
             radius: 8,
             rotationSpeed: 0.3,
             attributePoints: 0,
-            attributePointsIncrement: 0.7,
+            attributePointsIncrement: 1,
             maxRadius: 12,
             maxSpeed: 20,
             stupidPercent: 0.05,
-            thresholdPassability: 30
+            thresholdPassability: 30,
+            passbyPercent: 0.5
         }
 
 
