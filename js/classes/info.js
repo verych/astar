@@ -42,6 +42,7 @@
             this.fps = fps;
         }
         //this.text.text = "fps: " + this.fps + "; Soldiers: " + this.getSoldiers() + "; Timers: " + window.activeIntervals + "; cps: " + cps + "SCORE: " + game.totalScore;
-        this.text.text = "Towers: " + game.towerPoints + " | Shooters: " + game.shooterPoints + " | SCORE: " + game.totalScore + " | Skipped: " + game.totalSkipped + ' [Debug: fps=' + this.fps + ' cps=' + cps + '(' + window.astarCounter + ')]';
+        //this.text.text = "Towers: " + game.towerPoints + " | Shooters: " + game.shooterPoints + " | SCORE: " + game.totalScore + " | Skipped: " + game.totalSkipped + ' [Debug: fps=' + this.fps + ' cps=' + cps + '(' + window.astarCounter + ')]';
+        this.text.text = "Towers: " + game.towerPoints + " | Shooters: " + game.shooterPoints + " | SCORE: " + game.totalScore + " | Skipped: " + game.totalSkipped;
     },
 });

@@ -310,7 +310,13 @@
             for (var i = i1; i <= i2; i++) {
                 for (var j = j1; j <= j2; j++) {
                     if (this.mapNodes && this.mapNodes[i] && this.mapNodes[i][j]) {
-                        this.mapNodes[i][j].type = MapNodeTypes.TOWER;
+                        if (tower.passable) {
+                            this.mapNodes[i][j].type = MapNodeTypes.OPEN;
+                            this.mapNodes[i][j].passability = tower.passValue;
+                        }
+                        else {
+                            this.mapNodes[i][j].type = MapNodeTypes.TOWER;
+                        }
                     }
                 }
             }

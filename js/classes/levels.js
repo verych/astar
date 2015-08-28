@@ -196,7 +196,7 @@
     },
 
     getLevelTest3: function (app) {
-        app.levelStartDelay = 30000;
+        app.levelStartDelay = 3000;
 
         //screen size
         app.canvas.width = 1500;
@@ -220,27 +220,27 @@
         //starts
         var start1 = new Start(app);
         start1.init();
-        start1.place(10, app.drawArea.h / 2);
-        start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
+        start1.place(10, app.drawArea.h / 5);
+        start1.finish.place(app.drawArea.w - 30, app.drawArea.h - 100);
         start1.limit = 500;
         start1.limitPerMap = 1;
-        start1.sprayY = 600;
+        start1.sprayY = 500;
         start1.sprayX = 1;
-        start1.intervalTime = 1000;
-        start1.limitPerMapIncrements = [5, 10, 25, 50, 100, 200, 300, 400, 450, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460];
+        start1.intervalTime = 500;
+        start1.limitPerMapIncrements = [10, 50, 100, 200, 300, 400, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490];
 
         app.starts.push(start1);
 
         var start2 = new Start(app);
         start2.init();
-        start2.place(app.drawArea.w / 2, 10);
-        start2.finish.place(app.drawArea.w / 2, app.drawArea.h - 30);
+        start2.place(app.drawArea.w / 5, 10);
+        start2.finish.place(app.drawArea.w - 100, app.drawArea.h - 30);
         start2.limit = 500;
         start2.limitPerMap = 1;
         start2.sprayY = 1;
         start2.sprayX = 600;
         start2.intervalTime = 1000;
-        start2.limitPerMapIncrements = [10, 20, 30, 40, 50, 100, 200, 300, 400, 500];
+        start2.limitPerMapIncrements = [10, 20, 30, 40, 50, 51, 52, 53, 100, 200, 300, 400, 500];
 
         app.starts.push(start2);
 
@@ -253,187 +253,123 @@
             radius: 15,
             rotationSpeed: 0.5,
             attributePoints: 1,
-            attributePointsIncrement: 3,
+            attributePointsIncrement: 2,
             maxRadius: 20,
-            maxSpeed: 20,
+            maxSpeed: 15,
             stupidPercent: 0.03,
-            thresholdPassability: 10
+            thresholdPassability: 1
         }
         //speedy
         start2.genome = {
             health: 1,
             speed: 1,
-            slow: 1,
-            radius: 6,
+            slow: 2,
+            radius: 8,
             rotationSpeed: 0.3,
             attributePoints: 0,
-            attributePointsIncrement: 0.5,
+            attributePointsIncrement: 0.7,
             maxRadius: 12,
-            maxSpeed: 30,
+            maxSpeed: 20,
             stupidPercent: 0.05,
             thresholdPassability: 30
         }
-      
-        
-        //T
-        var tower;
-        var tx = 700;
-        var ty = 650;
-        var tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.sin(i) * 5;
-            tower.y = (tprev ? (tprev.y + tprev.r*1.7) : ty);
-            tower.x = tx + 50;
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.sin(i) * 5;
-            tower.y = ty;
-            tower.x = (tprev ? (tprev.x + tprev.r * 1.7) : tx);
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        //A
-        tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.sin(i) * 5;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.7) : ty);
-            tower.x = (tprev ? (tprev.x + tprev.r * 1.7) : tx + 150);
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 3 + Math.sin(i) * 3;
-            tower.y = ty + 70;
-            tower.x = (tprev ? (tprev.x + tprev.r * 1.7) : tx + 150);
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.sin(i) * 5;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.7) : ty);
-            tower.x = tx + 150;
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        //N
-        tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.sin(i) * 5;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.7) : ty);
-            tower.x = tx + 300;
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.sin(i) * 5;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.7) : ty);
-            tower.x = tx + 400;
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        tprev = null;
-        for (var i = 0; i < 20; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 3 + Math.sin(i) * 3;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.7) : ty);
-            tower.x = (tprev ? (tprev.x + tprev.r * 1.7) : tx + 300);
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        //K
-        tprev = null;
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.sin(i) * 5;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.7) : ty);
-            tower.x = tx + 450;
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        tprev = null;
-        for (var i = 0; i < 7; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.cos(i) * 3;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1.7) : ty + 40);
-            tower.x = (tprev ? (tprev.x + tprev.r * 1.8) : tx + 450);
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        tprev = null;
-        for (var i = 0; i < 7; i++) {
-            tower = new Tower(app.drawArea);
-            tower.r = 5 + Math.cos(i) * 3;
-            tower.y = (tprev ? (tprev.y - tprev.r * 1.7) : ty + 50);
-            tower.x = (tprev ? (tprev.x + tprev.r * 1.8) : tx + 450);
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        //S
-        tprev = null;
-        for (var i = 0; i < 15; i++) {
-            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), {hasShooter: false});
-            tower.r = 20 + Math.cos(i) * 3;
-            tower.y = (tprev ? (tprev.y + tprev.r * 1) : ty - 150);
-            tower.x = tx + 600 + Math.sin(i / 2 + 3) * 100;
-            app.towers.push(tower);
-            tprev = tower;
-        }
-        for (var i = 0; i < 10; i++) {
-            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
-            tower.r = 20 + Math.cos(i) * 30;
-            tower.y = 50 + Math.cos(i) * (50 - i) ;
-            tower.x = i * 50;
-            tower.transparent = true;
-            app.towers.push(tower);
 
+
+        //rocks
+        var prevt;
+        for (var i = 0; i < 15; i++) {
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false });
+            tower.r = 70 * Math.sin(i / 5) * Math.cos(i / 10);
+            tower.x = 1000 + (prevt ? (prevt.r) : 0) * 7 + tower.r + i * i;
+            tower.y = i * i;
+            app.towers.push(tower);
+            prevt = tower;
+        }
+
+        //houses
+        for (var i = 0; i < 5; i++) {
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isHouse: true, textureIndex: i%3 });
+            tower.r = 50;
+            tower.x = i * 250 + 200;
+            tower.y = app.drawArea.h - 30;
+            app.towers.push(tower);
+        }
+
+        //roads trees up
+        for (var i = 0; i < 22; i++) {
             tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
-            tower.r = 20 + Math.cos(i) * 10;
-            tower.x = Math.cos(i) * (50 - i);
-            tower.y = i * 5 + Math.random() * 10;
+            tower.r = 20 + 10 * Math.random() - 10 * Math.random();
+            tower.y = app.drawArea.h / 2 - 50 + 200 + i*i/2.5;
+            tower.x = i * 70 + 20 * Math.random() - 20 * Math.random();
             tower.transparent = true;
             app.towers.push(tower);
         }
+        //roads trees down
+        /*
         for (var i = 0; i < 20; i++) {
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 20 + 10 * Math.random() - 10 * Math.random();
+            tower.x = i * 70 + 15 * Math.random() - 15 * Math.random();
+            tower.y = app.drawArea.h / 2 + 50 + 200 + i*i/2.5;
+            tower.transparent = true;
+            app.towers.push(tower);
+        }
+        */
+        //bushes
+        for (var i = 0; i < 21; i++) {
             tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
             tower.r = 30 + Math.cos(i) * 5;
             tower.y = app.drawArea.h - 30 - 30 * Math.cos(i);
-            tower.x = 400 + i * 20 + 30 * Math.cos(i);
+            tower.x = 1100 + i * 20 + 30 * Math.cos(i);
             tower.transparent = true;
             app.towers.push(tower);
             
             tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
             tower.r = 30 + Math.cos(i) * 5;
             tower.x = app.drawArea.w + 30 * Math.cos(i) - 30;
-            tower.y = 200 + i * 15 + 10 * Math.cos(i);
+            tower.y = 600 + i * 15 + 10 * Math.cos(i);
             tower.transparent = true;
             app.towers.push(tower);
         }
-
-        for (var i = 0; i < 37; i++) {
-            var sprite = new AppSprite(app.map);
-            sprite.createRoad(i * 40, app.drawArea.h - 21, 25);
-
-            sprite = new AppSprite(app.map);
-            sprite.createRoad(app.drawArea.w - 21, i * 40, 25);
-
-            sprite = new AppSprite(app.map);
-            sprite.createRoad(21, i * 40, 25);
-
-            sprite = new AppSprite(app.map);
-            sprite.createRoad(i * 40, 21, 25);
+        for (var i = 0; i < 30; i++) {
+            tower = new Tower(app.drawArea, $.proxy(app.getMap, app), { hasShooter: false, isRandomTree: true });
+            tower.r = 40 + Math.random() * 5;
+            tower.y = app.drawArea.h + 30 - 50 * Math.random();
+            tower.x = 100 + Math.random() * 1000;
+            tower.transparent = true;
+            app.towers.push(tower);
         }
+        //road
+        for (var i = 0; i < 40; i++) {
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(i * 40, app.drawArea.h / 2 + 200 + i*i/7, 17);
+        }
+        //small roads
+        for (var i = 0; i < 108; i++) {
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(i * 8 + 190, app.drawArea.h / 2 + 330, 4);
+        }
+        //small roads
+        for (var i = 0; i < 4; i++) {
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(190, app.drawArea.h / 2 + 340 + i * 8, 4);
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(450, app.drawArea.h / 2 + 340 + i * 8, 4);
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(700, app.drawArea.h / 2 + 340 + i * 8, 4);
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(950, app.drawArea.h / 2 + 340 + i * 8, 4);
+        }
+        for (var i = 0; i < 10; i++) {
+            var sprite = new AppSprite(app.map);
+            sprite.createRoad(1050, app.drawArea.h / 2 + 340 + i * 8, 4);
+        }
+
+        //Guinness
+        var G = new Tower(app.drawArea, $.proxy(app.getMap, app), { isGuinness: true, textureIndex: 1});
+        G.r = 50;
+        G.y = app.drawArea.h - 50;
+        G.x = app.drawArea.w - 50;
+        app.towers.push(G);
     }
 });

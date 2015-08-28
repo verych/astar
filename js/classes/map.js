@@ -112,10 +112,11 @@
     },
 
     updateDiePositions: function (soldier) {
-        var coordI = this.coordToIndex(soldier.x);
-        var coordj = this.coordToIndex(soldier.y);
-        var cell = this.busyMap[coordI][coordj];
-        cell.die++;
+        if (soldier['mapBusyPositions'] instanceof Array) {
+            for (var i = 0; i < soldier['mapBusyPositions'].length; i++) {
+                this.busyMap[soldier['mapBusyPositions'][i].i][soldier['mapBusyPositions'][i].j].die++;
+            }
+        }
     },
 
     coordToIndex: function (coord)

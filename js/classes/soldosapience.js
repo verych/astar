@@ -248,19 +248,28 @@
                     var n = this.mapNodes[nx][ny];
                     //debugger;
                     //color
+                    var draw = false;         
                     if (n.type != MapNodeTypes.OPEN) {
                         this.debugGraphics.beginFill(0xFF00BB, 0.3);
+                        draw = true;
                     }
                     else {
-                        this.debugGraphics.beginFill(0x00FF00, 0);
+                        if (n.passability) {
+                            this.debugGraphics.beginFill(0xFF0000, 0.5);
+                            draw = true;
+                        }
+                        else {
+                            this.debugGraphics.beginFill(0x00FF00, 0);
+                        }
                     }
 
                         //position
                         var subR = n.r;
                         var subX = n.x; // +subR * (this.nodeX - nx);
                         var subY = n.y; // +subR * (this.nodeY - ny);
-
-                        this.debugGraphics.drawRoundedRect(Math.round(subX - subR + this.drawArea.ox + 1), Math.round(subY - subR + this.drawArea.oy + 1), Math.round(subR * 2) - 2, Math.round(subR * 2) - 2, 3);
+                        if (draw) {
+                            this.debugGraphics.drawRoundedRect(Math.round(subX - subR + this.drawArea.ox + 1), Math.round(subY - subR + this.drawArea.oy + 1), Math.round(subR * 2) - 2, Math.round(subR * 2) - 2, 3);
+                        }
                         this.debugGraphics.endFill();
                 }
             }
@@ -580,8 +589,8 @@
         }
         clearInterval(this.interval);
         this.enabled = false;
-        map.updateBusyPositions(this);
         map.updateDiePositions(this);
+        map.updateBusyPositions(this);
         this.complete.call(undefined, this);
         this.graph.nodes = null;
         this.graph = null;

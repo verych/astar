@@ -144,7 +144,7 @@
         for (var i = 0; i < this.towers.length; i++) {
             this.register(this.towers[i]);
             if (this.towers[i].shooter) {
-                this.register(this.towers[i].shooter);
+                this.registerRoadObject(this.towers[i].shooter);
             }
         }
 
@@ -399,14 +399,14 @@
         tower.y = e.data.global.y - this.drawArea.oy;//e.pageY - e.currentTarget.offsetTop - this.drawArea.oy;
         tower.place(tower.x, tower.y);
         this.towers.push(tower);
-        this.register(tower);
+        this.registerRoadObject(tower);
 
         if (!e.data.originalEvent.ctrlKey) {
             tower.shooter = new Shooter(this.drawArea, $.proxy(this.getMap, this));
             tower.shooter.x = tower.x;
             tower.shooter.y = tower.y;
             tower.shooter.leveupIncrement = 1;
-            this.register(tower.shooter);
+            this.registerRoadObject(tower.shooter);
             this.shooterPoints--;
         }
         else {
@@ -461,25 +461,6 @@
         }
     },
 
-    createTowers: function () {
-        var tower;
-        tower = new Tower(this.drawArea);
-        tower.x -= 0;
-        tower.y -= 50;
-        tower.r = 20;
-        this.towers.push(tower);
-        tower = new Tower(this.drawArea);
-        tower.x = this.starts[0].finish.x - 50;
-        tower.y -= 10;
-        tower.r = 10;
-        this.towers.push(tower);
-        tower = new Tower(this.drawArea);
-        tower.x += 0;
-        tower.y += 50;
-        tower.r = 20;
-        this.towers.push(tower);
-    },
-
     draw: function () {
         this.pixiRenderer.render(this.pixiStage);
         requestAnimationFrame($.proxy(this.draw, this));
@@ -491,6 +472,8 @@
     },
 
     drawDebug: function () {
+        return;
+        /*
         var debug = $('.debug');
         var content = '';
         var soldiers = this.getAllSoldiers();
@@ -500,5 +483,6 @@
             }
         }
         debug.html(content);
+        */
     }
 });
