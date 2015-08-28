@@ -196,7 +196,7 @@
     },
 
     getLevelTest3: function (app) {
-        app.levelStartDelay = 3000;
+        app.levelStartDelay = 10000;
 
         //screen size
         app.canvas.width = 1500;
