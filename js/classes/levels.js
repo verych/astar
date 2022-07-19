@@ -38,9 +38,9 @@
         //starts
         var start1 = new Start(app);
         start1.init();
-        start1.place(10, app.drawArea.h / 2);
+        start1.place(30, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
-        start1.limit = 500;
+        start1.limit = 250;
         start1.limitPerMap = 1;
         start1.sprayY = 500;
         start1.sprayX = 1;
@@ -51,9 +51,9 @@
 
         var start2 = new Start(app);
         start2.init();
-        start2.place(app.drawArea.w / 2, 10);
+        start2.place(app.drawArea.w / 2, 30);
         start2.finish.place(app.drawArea.w / 2, app.drawArea.h - 30);
-        start2.limit = 500;
+        start2.limit = 250;
         start2.limitPerMap = 10;
         start2.sprayY = 1;
         start2.sprayX = 500;
@@ -65,7 +65,7 @@
         //soldiers
         //slow aand fat
         start1.genome = {
-            health: 30,
+            health: 10,
             speed: 1,
             slow: 4,
             radius: 10,
