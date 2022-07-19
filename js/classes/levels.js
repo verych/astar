@@ -62,7 +62,7 @@
         start2.intervalTime = 10;
         start2.limitPerMapIncrements = [];
 
-        app.starts.push(start2);
+        //app.starts.push(start2);
 
         //soldiers
         //slow aand fat
