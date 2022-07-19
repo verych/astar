@@ -38,12 +38,13 @@
         //starts
         var start1 = new Start(app);
         start1.init();
-        start1.place(30, app.drawArea.h / 2);
+        start1.place(50, 100);
+        //start1.place(50, app.drawArea.h / 2);
         start1.finish.place(app.drawArea.w - 30, app.drawArea.h / 2);
         start1.limit = 250;
         start1.limitPerMap = 1;
-        start1.sprayY = 500;
-        start1.sprayX = 1;
+        start1.sprayY = 100;
+        start1.sprayX = 2;
         start1.intervalTime = 10;
         start1.limitPerMapIncrements = [];
 
@@ -51,12 +52,13 @@
 
         var start2 = new Start(app);
         start2.init();
-        start2.place(app.drawArea.w / 2, 30);
+        start2.place(100, 50);
+        //start2.place(app.drawArea.w / 2, 30);
         start2.finish.place(app.drawArea.w / 2, app.drawArea.h - 30);
         start2.limit = 250;
         start2.limitPerMap = 10;
-        start2.sprayY = 1;
-        start2.sprayX = 500;
+        start2.sprayY = 2;
+        start2.sprayX = 100;
         start2.intervalTime = 10;
         start2.limitPerMapIncrements = [];
 
