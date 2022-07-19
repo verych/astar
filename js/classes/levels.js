@@ -48,7 +48,7 @@
         start1.intervalTime = 10;
         start1.limitPerMapIncrements = [];
 
-        //app.starts.push(start1);
+        app.starts.push(start1);
 
         var start2 = new Start(app);
         start2.init();
